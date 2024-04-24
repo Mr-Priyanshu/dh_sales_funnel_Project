@@ -87,7 +87,7 @@ function UserHome() {
                       <th scope="col">Mobile No.</th>
                       <th scope="col">Email ID</th>
                       <th scope="col">Addrss</th>
-                      <th scope="col">Upcoming Follow Up date</th>
+                      <th scope="col">Upcoming Meeting date</th>
                       <th scope="col">Status</th>
                       <th scope="col">Purpose</th>
                       <th scope="col" colspan="3" >Action</th>
@@ -108,7 +108,7 @@ function UserHome() {
                       <td className='bg-warning'>Pending</td>
                       <td>Digital Marketing</td>
                       <td><Link to="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Update</Link></td>
-                      <td><Link to="#" className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Add Follow Up Reminder</Link></td>
+                      <td><Link to="#" className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Add Meeting Date</Link></td>
                       <td><Link to="/HomePage/FollowUpPage" className='btn btn-warning'>Follow Up</Link></td>
                       {/* Table Leads Data Update Model  */}
                       <div className='rounded-3 shadow-lg text-start'>
@@ -171,18 +171,18 @@ function UserHome() {
                           <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content">
                               <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="exampleModalLabel">Add Upcoming Follow Up Reminder</h1>
+                                <h1 className="modal-title fs-5" id="exampleModalLabel">Add Upcoming Meeting Date</h1>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div className="modal-body m-1">
                                 <div className='Model_content d-flex flex-column  py-3 px-5' >
                                   <div>
                                     <div className="mb-3">
-                                      <label for="exampleFormControlInput1" className="form-label">Select Upcoming Follow Up Date</label>
+                                      <label for="exampleFormControlInput1" className="form-label">Select Upcoming Meeting Date</label>
                                       <input type="date" className="form-control" id="addLeadFormControlInput1" />
                                     </div>
                                     <div className='mx-3'>
-                                      <label for="phaseDataList" className="form-label">Select Upcoming FollowUp Phase</label>
+                                      <label for="phaseDataList" className="form-label">Select Upcoming Meeting Phase</label>
                                       <select className="form-select form-select-sm" aria-label=".form-select-sm status">
                                         <option selected>Open this select phase </option>
                                         <option value="1">Phase 1</option>
