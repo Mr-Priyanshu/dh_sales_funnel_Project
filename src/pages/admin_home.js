@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // import all image
 
 
-function Home() {
+function AdminHome() {
   return (
     <Wrapper>
       <div className="container">
@@ -31,7 +31,6 @@ function Home() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -40,7 +39,7 @@ function Home() {
   );
 };
 
-export default Home;
+export default AdminHome;
 
 //CSS Styled Section use only low css styled
 
