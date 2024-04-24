@@ -31,11 +31,11 @@ function FollowUpPage() {
                     </select>
                   </div>
                   <div class="mx-3">
-                    <label for="inputReport" class="form-label">FollowUp Report</label>
+                    <label for="inputReport" class="form-label">Enter Follow Up Report</label>
                     <input type="input" class="form-control" id="inputReport" />
                   </div>
                   <div className='mx-3'>
-                    <label for="statusDataList" className="form-label">Status</label>
+                    <label for="statusDataList" className="form-label">Select Status</label>
                     <select className="form-select form-select-sm" aria-label=".form-select-sm status">
                       <option selected>Open this select menu</option>
                       <option value="1" className='bg-secondary'>On going</option>
@@ -54,7 +54,7 @@ function FollowUpPage() {
 
         {/* Fill Data Show in table format */}
         <div className="heading text-center mb-3">
-          <h3>Client Follow Up Report</h3>
+          <h3>On the Follow Up Report</h3>
         </div>
         <div className="table-responsive">
           <table class="table text-decoration-none table-hover">
