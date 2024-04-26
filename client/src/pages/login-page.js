@@ -2,7 +2,7 @@ import Styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import  axios from 'axios';
 import { GrLogin } from "react-icons/gr";   
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // const url = process.env.REACT_APP_API_URL;
 
@@ -26,8 +26,6 @@ function LoginPage({handle}) {
     })
     .catch((err) => console.log(err, "This is error"));
   }
-  // let arr = [12,3,3];
-  // let d = [...arr]
   return (
     <Wrapper>
       <div className="container">

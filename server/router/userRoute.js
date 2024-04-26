@@ -6,7 +6,7 @@ router.get('/test', test);
 router.post('/lead', addLead);
 router.post('/insertfollowup', createFollowUpReport);
 router.get('/getlead/:user_id', getLeadDetails);
-router.get('/updateLead', updateLead);
-router.put('/updateMeeting/:leadId', updateMeeting)
+router.post('/updateLead', updateLead);
+router.put('/updateMeeting', updateMeeting)
 
 module.exports = router;   

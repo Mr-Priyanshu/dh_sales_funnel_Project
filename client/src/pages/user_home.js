@@ -1,21 +1,83 @@
-import Styled from 'styled-components';
+import Styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // import all image
 
-
+const defaultLead = [{
+  lead_Id : '1234',
+  date: '01/01/2024',
+  fullName: 'Demo singh',
+  mobileNo: '12345678',
+  email: 'demo@gmail.com',
+  address: 'Demopur',
+  nextFollowDate: '28/04/2024',
+  status: 'pending',
+  inquiryType: 'Demo type'
+}]
 function UserHome() {
-  const [leadDetails, setLeadDetails] = useState('');
+  const [leadDetails, setLeadDetails] = useState(defaultLead);
+  const [leadForm, setLeadForm] = useState({});
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
-  console.log(user);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(leadForm);
+    axios.post('http://localhost:8080/lead', {u_Id: user.u_Id, ...leadForm})
+      .then((res) => {
+          console.log(res.data);
+          return res.data;
+        }).catch((err) => {
+          console.log(err, 'err in user home');
+      })
+  }
+  const handleUpdateLead = (e) => {
+    e.preventDefault();
+    console.log(leadForm);
+    axios.post('http://localhost:8080/updateLead', { ...leadForm})
+      .then((res) => {
+          console.log(res.data);
+          return res.data;
+        }).catch((err) => {
+          console.log(err, 'err in user home');
+      })
+  }
+  const hanldefollowUp = (e) => {
+    e.preventDefault();
+    console.log(leadForm);
+    axios.put('http://localhost:8080/updateMeeting', { ...leadForm})
+      .then((res) => {
+          console.log(res.data);
+          return res.data;
+        }).catch((err) => {
+          console.log(err, 'err in user home');
+      })
+  }
+  const handleLeadForm = (e, prop) => {
+    // prop ko hata kar e.target.name bhi kar sakte hai 
+    let value = e.target.value;
+    setLeadForm({...leadForm, [prop]: value});
+  }
+  
   useEffect(() => {
     axios.get(`http://localhost:8080/getlead/${user.u_Id}`).then((responce) => {
-      console.log(responce.data);
-      // setLeadDetails()
+      // console.log(responce.data);
+      if(responce.data.lead) {
+        const leadArray = [...responce.data.lead];
+        const followUpArray = [...responce.data.followUp];
+          let arr = leadArray.map((item) => {
+            let status = followUpArray.find((followItem) => {
+              if(followItem.lead_Id == item.lead_Id){
+                return item.status;
+              }
+            })
+            return {...item, status: status};
+          })
+          setLeadDetails(arr);
+          console.log(leadDetails);
+      }
       return responce.data;
     }).catch((err) => {
       console.log(err, 'this is err form home page');
@@ -42,33 +104,34 @@ function UserHome() {
                         <div className='Model_content d-flex flex-column  py-3 px-5' >
 
                           <div>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Genrate Clien ID</label>
                               <input type="ClienID" className="form-control" id="exampleFormControlInput1" placeholder="Auto Genrate Client ID" />
-                            </div>
-                            <div className="mb-3">
+                            </div> */}
+                            <form onSubmit={handleSubmit} >
+                            {/* <div className="mb-3">
                               <label for="LeadDateFormControlInput1" className="form-label">Lead Generation Date</label>
                               <input type="date" className="form-control" id="LeadDateFormControlInput1" />
-                            </div>
+                            </div> */}
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Full Name</label>
-                              <input type="Fullname" className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" />
+                              <input type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Mobile No.</label>
-                              <input type="MobileNumber" className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
+                              <input type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                              <input type="Email" className="form-control" id="exampleFormControlInput1" placeholder="Client Email ID" />
+                              <input type="Email" defaultValue={'myemail@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Client Email ID" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Address</label>
-                              <input type="Address" className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
+                              <input type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
                             </div>
                             <div>
                               <label for="exampleDataList" className="form-label">Inquery type</label>
-                              <select className="form-select form-select-sm" aria-label=".form-select-sm example">
+                              <select onChange={(e) => handleLeadForm(e, 'inquiryType')} className="form-select form-select-sm" aria-label="form-select-sm example">
                                 <option selected>Open this select menu</option>
                                 <option value="1">Web Development</option>
                                 <option value="2">Digital Marketing</option>
@@ -76,8 +139,11 @@ function UserHome() {
                                 <option value="3">SMM</option>
                               </select>
                             </div>
-
-                            <Link to='' className='btn btn-dark mt-3 '> Add Lead </Link>
+                            <div className='mt-3' >
+                              <input type='submit' className='btn btn-dark' />  
+                            </div>
+                            {/* <Link to='' className='btn btn-dark mt-3 '> Add Lead </Link> */}
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -108,24 +174,37 @@ function UserHome() {
                       <th scope="col">Purpose</th>
                       <th scope="col" colspan="3" >Action</th>
                       <th scope="col"></th>
-
+                      
                     </tr>
                   </thead>
                   <tbody className="table-group-divider ">
-                    <tr className='text-center'>
-                      <th scope="row">1</th>
-                      <td><Link to="">GOAG001</Link></td>
+                  {/* <td scope="row">1</td>
+                      <td>GOAG001</td>
                       <td>01/01/2024</td>
                       <td>Loren Singh</td>
-                      <td><Link className="text-decoration-none" to="#">+917047490032</Link></td>
+                      <td>+917047490032</td>
                       <td>Demo@Gmail.com</td>
                       <td>00, Wright Town Jabalpur 482002</td>
                       <td>28-04-2024</td>
                       <td className='bg-warning'>Pending</td>
-                      <td>Digital Marketing</td>
-                      <td><Link to="#" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Update</Link></td>
-                      <td><Link to="#" className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Add Meeting Date</Link></td>
-                      <td><Link to="/HomePage/FollowUpPage" className='btn btn-warning'>Follow Up</Link></td>
+                      <td>Digital Marketing</td> */}
+                      {
+                        leadDetails.map((lead, index) => {
+                          return <>
+                           <tr className='text-center'>
+                      <td scope="row">{index+1}</td>
+                      <td>{lead.lead_Id}</td>
+                      <td>{lead.date}</td>
+                      <td>{lead.fullName}</td>
+                      <td>{lead.mobileNo}</td>
+                      <td>{lead.email}</td>
+                      <td>{lead.address}</td>
+                      <td>{lead.nextFollowDate}</td>
+                      <td className='bg-warning'>{lead.status}</td>
+                      <td>{lead.inquiryType}</td>
+                      <td><span  onClick={() => setLeadForm({...leadForm, lead_Id: lead.lead_Id})} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Update</span></td>
+                      <td><span onClick={() => setLeadForm({...leadForm, lead_Id: lead.lead_Id})}  className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Add Meeting Date</span></td>
+                      <td><Link to={`/HomePage/FollowUpPage/${lead.lead_Id}`} className='btn btn-warning'>Follow Up</Link></td>
                       {/* Table Leads Data Update Model  */}
                       <div className='rounded-3 shadow-lg text-start'>
                         <div className="modal fade rounded shadow-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,25 +218,30 @@ function UserHome() {
                                 <div className='Model_content d-flex flex-column  py-3 px-5' >
 
                                   <div>
+                                    <form onSubmit={handleUpdateLead}>
+                                    <div className="mb-3" hidden>
+                                      <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
+                                      <input value={lead.lead_Id} type="Fullname" onChange={(e) => handleLeadForm(e, 'lead_Id')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                    </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
-                                      <input type="Fullname" className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                      <input type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update MoBIle No.</label>
-                                      <input type="MobileNumber" className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      <input type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                                      <input type="Email" className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
+                                      <input type="Email" value={'user@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Address</label>
-                                      <input type="Address" className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
+                                      <input type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
                                     </div>
                                     <div>
                                       <label for="exampleDataList" className="form-label">Update Inquery type</label>
-                                      <select className="form-select form-select-sm" aria-label=".form-select-sm example">
+                                      <select onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
                                         <option selected>Open this select menu</option>
                                         <option value="1">Web Development</option>
                                         <option value="2">Digital Marketing</option>
@@ -165,9 +249,11 @@ function UserHome() {
                                         <option value="3">SMM</option>
                                       </select>
                                     </div>
-
-
-                                    <Link to='' className='btn btn-dark mt-3 '>Update</Link>
+                                    <div className='btn btn-dark mt-3' >
+                                      <input type="submit" className='btn btn-dark' />
+                                    </div>
+                                    {/* <Link to='' className='btn btn-dark mt-3 '>Update</Link> */}
+                                    </form>
                                   </div>
                                 </div>
                               </div>
@@ -193,20 +279,25 @@ function UserHome() {
                               <div className="modal-body m-1">
                                 <div className='Model_content d-flex flex-column  py-3 px-5' >
                                   <div>
+                                    <form onSubmit={hanldefollowUp}>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Select Upcoming Meeting Date</label>
-                                      <input type="date" className="form-control" id="addLeadFormControlInput1" />
+                                      <input type="date" onChange={(e) => handleLeadForm(e, 'nextFollowDate')} className="form-control" id="addLeadFormControlInput1" />
                                     </div>
                                     <div className='mx-3'>
                                       <label for="phaseDataList" className="form-label">Select Upcoming Meeting Phase</label>
-                                      <select className="form-select form-select-sm" aria-label=".form-select-sm status">
+                                      <select onChange={(e) => handleLeadForm(e, 'nextFollowPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                                         <option selected>Open this select phase </option>
                                         <option value="1">Phase 1</option>
                                         <option value="2">Phase 2</option>
                                         <option value="3">Phase 3</option>
                                       </select>
                                     </div>
-                                    <Link to='' className='btn btn-dark mt-3 '>Add</Link>
+                                    <div className='mt-3'>
+                                      <input type="submit" className='btn btn-dark' />
+                                    </div>
+                                    </form>
+                                    {/* <Link to='' className='btn btn-dark mt-3 '>Add</Link> */}
                                   </div>
                                 </div>
                               </div>
@@ -216,6 +307,10 @@ function UserHome() {
                       </div>
                       {/*Leade Add Follow up  Model Use  Link to update Button close */}
                     </tr>
+                            </>
+                        })
+                      }
+                   
 
                   </tbody>
 
