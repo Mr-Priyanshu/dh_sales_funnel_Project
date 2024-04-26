@@ -4,7 +4,7 @@ import Footer from "./components/footer";
 // import AdminHome from "./pages/admin_home";
 import LoginPage from "./pages/login-page";
 import UserHome from "./pages/user_home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FollowUpPage from "./pages/follow_up";
 
 
@@ -14,7 +14,6 @@ function App() {
   function using() {
     setuser(!user);
   }
-
   return (
     <div className="App d-flex flex-column bg-red ">
       <header className="App-header">
@@ -26,7 +25,7 @@ function App() {
           <Route path="/" element={<LoginPage handle={using} Ustate={user}/>}></Route>
           <Route path="/LoginPage" element={<LoginPage handle={using} Ustate={user}/>}></Route>
           <Route path="/HomePage" element={<UserHome/>}></Route>
-          <Route path="/HomePage/FollowUpPage" element={<FollowUpPage/>}></Route>
+          <Route path="/HomePage/FollowUpPage/:lead_Id" element={<FollowUpPage/>}></Route>
           <Route path="" element=""></Route>
           <Route path="" element=""></Route>
 

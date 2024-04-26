@@ -7,11 +7,11 @@ const test = async (req, res) => {
 
 const addLead = async (req, res, next) => {
     try {
-        const {u_Id,fullName, mobileNo, email, address, inquiryType, nextFollowDate, nextFollowPhase} = req.body;
-
+        const {u_Id,fullName, mobileNo, email, address, inquiryType} = req.body;
+        console.log(u_Id,fullName, mobileNo, email, address, inquiryType);
         const insertLead = `INSERT INTO leads (
-            u_Id, fullName, mobileNo, email, address, inquiryType, nextFollowDate, nextFollowPhase) VALUES (?, ?, ?, ?, ?, ? , ? ,? )`;
-        const insertLeadParams = [ u_Id,  fullName, mobileNo, email, address, inquiryType, nextFollowDate, nextFollowPhase ];
+            u_Id, fullName, mobileNo, email, address, inquiryType) VALUES (?, ?, ?, ?, ?, ? )`;
+        const insertLeadParams = [ u_Id,  fullName, mobileNo, email, address, inquiryType];
 
         db.query(
             insertLead, 
@@ -20,6 +20,7 @@ const addLead = async (req, res, next) => {
                 if (err) {
                     res.status(500).json({ error: "Internal server error" });
                   } else {
+                    console.log(result);
                     return res.status(200).json({
                       success: true,
                       data: result,
@@ -35,48 +36,30 @@ const addLead = async (req, res, next) => {
 }
 const updateLead = async (req, res, next) => {
     try {
-        const { lead_Id, fullName, mobileNo, email, address, inquiryType, nextFollowDate, nextFollowPhase } = req.body;
-
-        // Construct the SQL query to find the lead
-        const findLeadQuery = 'SELECT * FROM leads WHERE lead_Id = ?';
+        const { lead_Id, fullName, mobileNo, email, address, inquiryType } = req.body;
+        console.log(lead_Id, fullName, mobileNo, email, address, inquiryType)
+        const updateLeadQuery = `
+        UPDATE leads 
+        SET fullName = ?, 
+            mobileNo = ?, 
+            email = ?, 
+            address = ?, 
+            inquiryType = ?
+        WHERE lead_Id = ?
+    `;
+    
+    db.query(updateLeadQuery, [fullName, mobileNo, email, address, inquiryType, lead_Id], (updateErr, updateResult) => {
+        if (updateErr) {
+            return res.status(500).json({ err: 'Internal server error' });
+        }
         
-        // Execute the query to find the lead
-        db.query(findLeadQuery, [lead_Id], (err, result) => {
-            if (err) {
-                return res.status(500).json({ err: 'Internal server error' });
-            }
-            
-            if (result.length === 0) {
-                // Lead not found
-                return res.status(404).json({ error: 'Lead not found' });
-            }
-
-            // Construct the SQL query to update the lead
-            const updateLeadQuery = `
-                UPDATE leads 
-                SET fullName = ?, 
-                    mobileNo = ?, 
-                    email = ?, 
-                    address = ?, 
-                    inquiryType = ?, 
-                    nextFollowDate = ?, 
-                    nextFollowPhase = ? 
-                WHERE lead_Id = ?
-            `;
-            
-            // Execute the query to update the lead
-            db.query(updateLeadQuery, [fullName, mobileNo, email, address, inquiryType, nextFollowDate, nextFollowPhase, lead_Id], (updateErr, updateResult) => {
-                if (updateErr) {
-                    return res.status(500).json({ err: 'Internal server error' });
-                }
-                
-                // Return success response
-                return res.status(200).json({
-                    message: "Lead updated successfully",
-                    result: updateResult
-                });
-            });
+        // Return success response
+        console.log(updateResult);
+        return res.status(200).json({
+            message: "Lead updated successfully",
+            result: updateResult
         });
+    });
     } catch (e) {
         // Handle unexpected errors
         res.status(500).json({ error: e.message });
@@ -118,17 +101,13 @@ const getLeadDetails = async (req, res, next) => {
             if (leadErr) {
                 return res.status(500).json({ error: 'Internal server error' });
             }
-            if(leadResult.length == 0){
-                return res.status(400).json({message: 'not found'})
-            }
-
             const getFollowUp = 'SELECT * FROM followupreport WHERE u_Id = ?';
         
             db.query(getFollowUp, [u_Id], (followUpErr, followUpResult) => {
                 if (followUpErr) {
                     return res.status(500).json({ error: 'Internal server error' });
                 }
-                if(followUpResult.length == 0){
+                if(followUpResult.length == 0 && leadResult.length == 0){
                     return res.status(400).json({message: 'not found'})
                 }
         
@@ -147,9 +126,8 @@ const getLeadDetails = async (req, res, next) => {
     }
 }
 
-const updateMeeting = (req, res) => {
-    const leadId = req.params.leadId;
-    const { nextFollowDate, nextFollowPhase } = req.body; // Assuming you are sending these values in the request body
+const updateMeeting = (req, res, next) => {
+    const { lead_Id, nextFollowDate, nextFollowPhase } = req.body; 
 
     const updateLeadQuery = `
         UPDATE leads 
@@ -158,8 +136,8 @@ const updateMeeting = (req, res) => {
             nextFollowPhase = ?
         WHERE lead_Id = ?
     `;
-
-    db.query(updateLeadQuery, [nextFollowDate, nextFollowPhase, leadId], (updateErr, updateResult) => {
+    console.log('yes in the update meeting');
+    db.query(updateLeadQuery, [nextFollowDate, nextFollowPhase, lead_Id], (updateErr, updateResult) => {
         if (updateErr) {
             return res.status(500).json({ err: 'Internal server error' });
         }
