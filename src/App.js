@@ -20,14 +20,6 @@ function App() {
       <header className="App-header">
         <Navbar handle={using} Ustate={user}/>
       </header>
-      
-
-
-
-
-
-
-
       <main>
         <Routes>
          
@@ -37,11 +29,7 @@ function App() {
           <Route path="/HomePage/FollowUpPage" element={<FollowUpPage/>}></Route>
           <Route path="" element=""></Route>
           <Route path="" element=""></Route>
-          <Route path="" element=""></Route>
-          <Route path="" element=""></Route>
-          <Route path="" element=""></Route>
-          <Route path="" element=""></Route>
-          <Route path="" element=""></Route>
+
         </Routes>
       </main>
 

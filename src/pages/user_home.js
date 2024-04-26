@@ -1,10 +1,26 @@
 import Styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // import all image
 
 
 function UserHome() {
+  const [leadDetails, setLeadDetails] = useState('');
+  let user = localStorage.getItem('user');
+  user = JSON.parse(user);
+  console.log(user);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/getlead/${user.u_Id}`).then((responce) => {
+      console.log(responce.data);
+      // setLeadDetails()
+      return responce.data;
+    }).catch((err) => {
+      console.log(err, 'this is err form home page');
+    })
+  }, [])
   return (
     <Wrapper>
 
