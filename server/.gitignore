@@ -1,0 +1,39 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore any compiled binaries or executables
+*.exe
+*.out
+*.dll
+*.so
+*.dylib
+
+# Ignore log files and backups
+*.log
+*.log.*
+*.bak
+
+# Ignore environment-specific files
+.env
+
+# Ignore dependencies and build output for Ruby, Python, and Java
+*.gem
+*.war
+*.ear
+*.jar
+*.pyc
+__pycache__/
+*.class
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+*.min.css
+*.map
+
