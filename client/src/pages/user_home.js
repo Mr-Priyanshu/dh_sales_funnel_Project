@@ -16,17 +16,30 @@ const defaultLead = [{
   status: 'pending',
   inquiryType: 'Demo type'
 }]
+const defaultLeadForm = {
+  fullName: '',
+  mobileNo: '',
+  email: '',
+  address: '',
+  inquiryType: '',
+  upCommingDate: '',
+  upCommingPhase: '',
+}
 function UserHome() {
   const [leadDetails, setLeadDetails] = useState(defaultLead);
-  const [leadForm, setLeadForm] = useState({});
+  const [leadForm, setLeadForm] = useState(defaultLeadForm);
+  const [nowUseEffect, setNowUseEffect] =  useState(true);
+
   const curr = useRef();
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(curr.current.click());
+    setLeadForm(defaultLeadForm);
+    setNowUseEffect(false);
     console.log(leadForm);
+    console.log(curr.current.click());
     axios.post('http://localhost:8080/lead', {u_Id: user.u_Id, ...leadForm})
       .then((res) => {
           console.log(res.data);
@@ -84,7 +97,7 @@ function UserHome() {
     }).catch((err) => {
       console.log(err, 'this is err form home page');
     })
-  }, [])
+  }, [nowUseEffect])
   return (
     <Wrapper>
 
@@ -117,23 +130,23 @@ function UserHome() {
                             </div> */}
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Full Name</label>
-                              <input type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" required />
+                              <input type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" required />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Mobile No.</label>
-                              <input required type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
+                              <input required type="text" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                              <input required type="Email" defaultValue={'myemail@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Client Email ID" />
+                              <input required type="Email" value={leadForm.email} defaultValue={'myemail@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Client Email ID" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Address</label>
-                              <input required type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
+                              <input required type="text" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
                             </div>
                             <div>
                               <label for="exampleDataList" className="form-label">Inquery type</label>
-                              <select required onChange={(e) => handleLeadForm(e, 'inquiryType')} className="form-select form-select-sm" aria-label="form-select-sm example">
+                              <select required value={leadForm.inquiryType} onChange={(e) => handleLeadForm(e, 'inquiryType')} className="form-select form-select-sm" aria-label="form-select-sm example">
                                 <option selected>Open this select menu</option>
                                 <option value="1">Web Development</option>
                                 <option value="2">Digital Marketing</option>
@@ -227,23 +240,23 @@ function UserHome() {
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
-                                      <input required type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                      <input required type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update MoBIle No.</label>
-                                      <input required type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      <input required type="text" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                                      <input required type="Email" value={'user@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
+                                      <input required type="Email" value={leadForm.email}  onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Address</label>
-                                      <input required type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
+                                      <input required type="text" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
                                     </div>
                                     <div>
                                       <label for="exampleDataList" className="form-label">Update Inquery type</label>
-                                      <select required onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
+                                      <select required value={leadForm.inquiryType} onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
                                         <option selected>Open this select menu</option>
                                         <option value="1">Web Development</option>
                                         <option value="2">Digital Marketing</option>
@@ -284,11 +297,11 @@ function UserHome() {
                                     <form onSubmit={hanldefollowUp}>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Select Upcoming Meeting Date</label>
-                                      <input type="date" onChange={(e) => handleLeadForm(e, 'nextFollowDate')} className="form-control" id="addLeadFormControlInput1" />
+                                      <input type="date" value={leadForm.upCommingDate} onChange={(e) => handleLeadForm(e, 'nextFollowDate')} className="form-control" id="addLeadFormControlInput1" />
                                     </div>
                                     <div className='mx-3'>
                                       <label for="phaseDataList" className="form-label">Select Upcoming Meeting Phase</label>
-                                      <select onChange={(e) => handleLeadForm(e, 'nextFollowPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                                      <select value={leadForm.upCommingPhase} onChange={(e) => handleLeadForm(e, 'nextFollowPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                                         <option selected>Open this select phase </option>
                                         <option value="1">Phase 1</option>
                                         <option value="2">Phase 2</option>

@@ -3,10 +3,18 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const defaultData = {
+  followDate: '',
+  followPhase: '',
+  report: '',
+  status: '',
+}
 function FollowUpPage() {
   const [followUp, setFollowUp] = useState([]);
   const [userData, setuserData] = useState({});
   const [leadReport, setLeadReport] = useState({});
+  const [nowEffect, setNowEffect] = useState(true);
+  const [formData, setFormData] = useState(defaultData);
 
   const {lead_Id} = useParams();
   let user = localStorage.getItem('user');
@@ -15,6 +23,8 @@ function FollowUpPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(leadReport);
+    setFormData(defaultData);
+    setNowEffect(false);
     axios.post('http://localhost:8080/insertfollowup', {u_Id: user.u_Id, lead_Id, ...leadReport})
       .then((res) => {
           console.log(res.data);
@@ -38,7 +48,7 @@ function FollowUpPage() {
           console.log(followUp,userData);
           return res.data;
       }).catch((err) => console.log(err, 'Error in followuppage'))
-  }, [])
+  }, [nowEffect])
   return (
     <Wrapper>
       <div className="container">
@@ -52,11 +62,11 @@ function FollowUpPage() {
                   </div>
                   <div class="mx-3">
                     <label for="inputdate" class="form-label">Select FollowUp Date</label>
-                    <input type="date" onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
+                    <input type="date" value={formData.followDate} onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
                   </div>
                   <div className='mx-3'>
                     <label for="phaseDataList" className="form-label">Select FolloUp Phase</label>
-                    <select onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                    <select value={formData.followPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                       <option selected>Open this select phase </option>
                       <option value="1">Phase 1</option>
                       <option value="2">Phase 2</option>
@@ -65,11 +75,11 @@ function FollowUpPage() {
                   </div>
                   <div class="mx-3">
                     <label for="inputReport" class="form-label">Enter Follow Up Report</label>
-                    <input onChange={(e) => handleReport(e, 'followUpReport')} type="input" class="form-control" id="inputReport" />
+                    <input value={formData.report} onChange={(e) => handleReport(e, 'followUpReport')} type="input" class="form-control" id="inputReport" />
                   </div>
                   <div className='mx-3'>
                     <label for="statusDataList" className="form-label">Select Status</label>
-                    <select onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                    <select value={formData.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                       <option selected>Open this select menu</option>
                       <option value="1" className='bg-secondary'>On going</option>
                       <option value="2" className='bg-success'>Done</option>
