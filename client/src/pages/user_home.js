@@ -117,7 +117,7 @@ function UserHome() {
         <div className="  my-4 ">
           <div>
             <div className='m-1 pb-4'><br />
-              <Link to="/AddLeadsPage" className='btn btn-info ' data-bs-toggle="modal" data-bs-target="#1AddLeadsModal">Add Leads</Link>
+              <Link to="/AddLeadsPage" className='btn btn-info ' data-bs-toggle="modal" data-bs-target="#1AddLeadsModal">Add Lead</Link>
               {/* Model Box to Add Leads Details  */}
               <div className='rounded-3 shadow-lg'>
                 <div className="modal fade rounded shadow-lg" id="1AddLeadsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
