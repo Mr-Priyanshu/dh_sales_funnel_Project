@@ -141,7 +141,7 @@ function UserHome() {
                               <input type="date" className="form-control" id="LeadDateFormControlInput1" />
                             </div> */}
                             <div className="mb-3">
-                              <label for="exampleFormControlInput1" className="form-label">Full Name</label>
+                              <label for="exampleFormControlInput1" className="form-label">Client Name</label>
                               <input type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" required />
                             </div>
                             <div className="mb-3">

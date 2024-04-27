@@ -105,7 +105,7 @@ function FollowUpPage() {
               <tr className='text-center table-light  '>
                 <th scope="col">S No.</th>
                 <th scope="col">Client Name</th>
-                <th scope="col">Purpous</th>
+                <th scope="col">Service(s)</th>
                 <th scope="col">FollowUp Date</th>
                 <th scope="col">FollowUp Phase</th>
                 <th scope="col" >FollowUp Report</th>
