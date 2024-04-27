@@ -142,7 +142,7 @@ function UserHome() {
                             </div> */}
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Client Name</label>
-                              <input type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" required />
+                              <input type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Clien Name" required />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Mobile No.</label>
@@ -192,7 +192,7 @@ function UserHome() {
                       {/* <th scope="col">S.no.</th>
                       <th scope="col">Client ID</th> */}
                       <th scope="col">Lead Generation Date</th>
-                      <th scope="col">Full Name </th>
+                      <th scope="col">Client Name </th>
                       <th scope="col">Mobile No.</th>
                       <th scope="col">Email ID</th>
                       <th scope="col">Address</th>
@@ -247,12 +247,12 @@ function UserHome() {
                                   <div>
                                     <form onSubmit={handleUpdateLead}>
                                     <div className="mb-3" hidden>
-                                      <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
-                                      <input required value={lead.lead_Id} type="Fullname" onChange={(e) => handleLeadForm(e, 'lead_Id')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                      <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
+                                      <input required value={lead.lead_Id} type="Fullname" onChange={(e) => handleLeadForm(e, 'lead_Id')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Client Name" />
                                     </div>
                                     <div className="mb-3">
-                                      <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
-                                      <input required type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                      <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
+                                      <input required type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client  Name" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
