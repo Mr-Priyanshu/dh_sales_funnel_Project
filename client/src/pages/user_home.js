@@ -21,7 +21,7 @@ const defaultLeadForm = {
   mobileNo: '',
   email: '',
   address: '',
-  inquiryType: '',
+  inquiryType: '',  
   upCommingDate: '',
   upCommingPhase: '',
 }
@@ -29,7 +29,19 @@ function UserHome() {
   const [leadDetails, setLeadDetails] = useState(defaultLead);
   const [leadForm, setLeadForm] = useState(defaultLeadForm);
   const [nowUseEffect, setNowUseEffect] =  useState(true);
+// -*------------------------------
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [isValid, setIsValid] = useState(false);
 
+  const handleChange = (event) => {
+    const number = event.target.value;
+    setMobileNumber(number);
+
+    // Regular expression for 10-digit mobile number
+    const mobileNumberPattern = /^[0-9]{10}$/;
+    setIsValid(mobileNumberPattern.test(number));
+  };
+// -*----------------
   const curr = useRef();
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
@@ -142,7 +154,7 @@ function UserHome() {
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Address</label>
-                              <input required type="text" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
+                              <input required type="address" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
                             </div>
                             <div>
                               <label for="exampleDataList" className="form-label">Inquery type</label>
@@ -243,8 +255,8 @@ function UserHome() {
                                       <input required type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
                                     </div>
                                     <div className="mb-3">
-                                      <label for="exampleFormControlInput1" className="form-label">Update MoBIle No.</label>
-                                      <input required type="text" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
+                                      <input required type="number" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Email ID</label>
@@ -252,7 +264,7 @@ function UserHome() {
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Address</label>
-                                      <input required type="text" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
+                                      <input required type="address" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
                                     </div>
                                     <div>
                                       <label for="exampleDataList" className="form-label">Update Inquery type</label>

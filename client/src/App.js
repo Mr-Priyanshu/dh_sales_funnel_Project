@@ -9,7 +9,7 @@ import FollowUpPage from "./pages/follow_up";
 
 
 function App() {
-  const [user, setuser] = useState(false);
+  const [user, setuser] = useState(true);
 
   function using() {
     setuser(!user);

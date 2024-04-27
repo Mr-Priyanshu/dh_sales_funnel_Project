@@ -62,7 +62,7 @@ function FollowUpPage() {
                   </div>
                   <div class="mx-3">
                     <label for="inputdate" class="form-label">Select FollowUp Date</label>
-                    <input type="date" value={formData.followDate} onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
+                    <input required type="date" value={formData.followDate} onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
                   </div>
                   <div className='mx-3'>
                     <label for="phaseDataList" className="form-label">Select FolloUp Phase</label>
@@ -75,11 +75,11 @@ function FollowUpPage() {
                   </div>
                   <div class="mx-3">
                     <label for="inputReport" class="form-label">Enter Follow Up Report</label>
-                    <input value={formData.report} onChange={(e) => handleReport(e, 'followUpReport')} type="input" class="form-control" id="inputReport" />
+                    <input required value={formData.report} onChange={(e) => handleReport(e, 'followUpReport')} type="input" class="form-control" id="inputReport" />
                   </div>
                   <div className='mx-3'>
                     <label for="statusDataList" className="form-label">Select Status</label>
-                    <select value={formData.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                    <select required value={formData.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                       <option selected>Open this select menu</option>
                       <option value="1" className='bg-secondary'>On going</option>
                       <option value="2" className='bg-success'>Done</option>

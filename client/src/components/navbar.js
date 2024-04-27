@@ -39,14 +39,14 @@ function Navbar({handle, Ustate}) {
                   </ul>
                 </li> */}
               </ul>
-              {
+              {/* {
                 Ustate ? <>  <form className="d-flex">
                   <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                   <button className="btn btn-outline-success me-2" type="submit">Search</button>
                 </form>
                   <button onClick={() => handle()} className="btn btn-outline-none logout my-2 px-3" type="logout"><Link to="LoginPage"><BiLogOut/> Logout</Link> </button> </> :
                   <button onClick={() => handle()} className="btn login my-2 px-3 " type="login"><Link to="HomePage">Login <GrLogin /></Link></button>
-              }
+              } */}
 
               {/* <button onClick={() => using()} className="btn logout my-2 px-3" type="logout">CLICK TO LOGIN</button> */}
             </div>

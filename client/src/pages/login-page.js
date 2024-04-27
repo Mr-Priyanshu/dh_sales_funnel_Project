@@ -49,7 +49,7 @@ function LoginPage({handle}) {
                 </div>
                 <div class="mb-3 form-check">
                   <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
                 {/* <button onClick={() => handle()} type="submit" class="btn btn-primary"><Link to="/HomePage">Login</Link></button>  */}
                 <button onClick={() => handle()} type="submit" class="btn btn-primary">Login</button> 
