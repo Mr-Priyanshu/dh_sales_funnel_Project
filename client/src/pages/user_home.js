@@ -68,12 +68,12 @@ function UserHome() {
         const leadArray = [...responce.data.lead];
         const followUpArray = [...responce.data.followUp];
           let arr = leadArray.map((item) => {
-            let status = followUpArray.find((followItem) => {
-              if(followItem.lead_Id == item.lead_Id){
-                return item.status;
-              }
-            })
-            return {...item, status: status};
+            let follow = followUpArray.find((followItem) => followItem.lead_Id == item.lead_Id);
+            if(follow) {
+              return {...item, status: follow.status};
+            } else {
+              return {...item};
+            }
           })
           setLeadDetails(arr);
           console.log(leadDetails);
@@ -115,23 +115,23 @@ function UserHome() {
                             </div> */}
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Full Name</label>
-                              <input type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" />
+                              <input type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Client Full Name" required />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Mobile No.</label>
-                              <input type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
+                              <input required type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                              <input type="Email" defaultValue={'myemail@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Client Email ID" />
+                              <input required type="Email" defaultValue={'myemail@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Client Email ID" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Address</label>
-                              <input type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
+                              <input required type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Client Address" />
                             </div>
                             <div>
                               <label for="exampleDataList" className="form-label">Inquery type</label>
-                              <select onChange={(e) => handleLeadForm(e, 'inquiryType')} className="form-select form-select-sm" aria-label="form-select-sm example">
+                              <select required onChange={(e) => handleLeadForm(e, 'inquiryType')} className="form-select form-select-sm" aria-label="form-select-sm example">
                                 <option selected>Open this select menu</option>
                                 <option value="1">Web Development</option>
                                 <option value="2">Digital Marketing</option>
@@ -221,27 +221,27 @@ function UserHome() {
                                     <form onSubmit={handleUpdateLead}>
                                     <div className="mb-3" hidden>
                                       <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
-                                      <input value={lead.lead_Id} type="Fullname" onChange={(e) => handleLeadForm(e, 'lead_Id')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                      <input required value={lead.lead_Id} type="Fullname" onChange={(e) => handleLeadForm(e, 'lead_Id')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update Full Name</label>
-                                      <input type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
+                                      <input required type="Fullname" onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Full Name" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update MoBIle No.</label>
-                                      <input type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      <input required type="MobileNumber" onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                                      <input type="Email" value={'user@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
+                                      <input required type="Email" value={'user@gmail.com'} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Address</label>
-                                      <input type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
+                                      <input required type="Address" onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
                                     </div>
                                     <div>
                                       <label for="exampleDataList" className="form-label">Update Inquery type</label>
-                                      <select onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
+                                      <select required onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
                                         <option selected>Open this select menu</option>
                                         <option value="1">Web Development</option>
                                         <option value="2">Digital Marketing</option>
