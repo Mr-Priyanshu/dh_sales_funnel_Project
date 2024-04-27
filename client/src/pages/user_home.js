@@ -189,13 +189,13 @@ function UserHome() {
                 <table className="table text-decoration-none table-hover">
                   <thead className='table-dark'>
                     <tr className='text-center'>
-                      <th scope="col">S.no.</th>
-                      <th scope="col">Client ID</th>
+                      {/* <th scope="col">S.no.</th>
+                      <th scope="col">Client ID</th> */}
                       <th scope="col">Lead Generation Date</th>
                       <th scope="col">Full Name </th>
                       <th scope="col">Mobile No.</th>
                       <th scope="col">Email ID</th>
-                      <th scope="col">Addrss</th>
+                      <th scope="col">Address</th>
                       <th scope="col">Upcoming Meeting date</th>
                       <th scope="col">Status</th>
                       <th scope="col">Purpose</th>
@@ -219,8 +219,8 @@ function UserHome() {
                         leadDetails.map((lead, index) => {
                           return <>
                            <tr className='text-center'>
-                      <td scope="row">{index+1}</td>
-                      <td>{lead.lead_Id}</td>
+                      {/* <td scope="row">{index+1}</td> */}
+                      {/* <td>{lead.lead_Id}</td> */}
                       <td>{lead.date}</td>
                       <td>{lead.fullName}</td>
                       <td>{lead.mobileNo}</td>
@@ -230,8 +230,8 @@ function UserHome() {
                       <td className='bg-warning'>{lead.status}</td>
                       <td>{lead.inquiryType}</td>
                       <td><span  onClick={() => setLeadForm({...leadForm, lead_Id: lead.lead_Id})} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Update</span></td>
-                      <td><span onClick={() => setLeadForm({...leadForm, lead_Id: lead.lead_Id})}  className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Add Meeting Date</span></td>
-                      <td><Link to={`/HomePage/FollowUpPage/${lead.lead_Id}`} className='btn btn-warning'>Follow Up</Link></td>
+                      <td><span onClick={() => setLeadForm({...leadForm, lead_Id: lead.lead_Id})}  className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Schedule Next Meeting </span></td>
+                      <td><Link to={`/HomePage/FollowUpPage/${lead.lead_Id}`} className='btn btn-warning'>MOM</Link></td>
                       {/* Table Leads Data Update Model  */}
                       <div className='rounded-3 shadow-lg text-start'>
                         <div className="modal fade rounded shadow-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
