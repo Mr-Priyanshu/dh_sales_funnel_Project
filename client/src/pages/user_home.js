@@ -196,9 +196,9 @@ function UserHome() {
                       <th scope="col">Mobile No.</th>
                       <th scope="col">Email ID</th>
                       <th scope="col">Address</th>
-                      <th scope="col">Upcoming Meeting date</th>
+                      <th scope="col">Upcoming Meeting </th>
                       <th scope="col">Status</th>
-                      <th scope="col">Purpose</th>
+                      <th scope="col">Service(s)</th>
                       <th scope="col" colspan="3" >Action</th>
                       <th scope="col"></th>
                       

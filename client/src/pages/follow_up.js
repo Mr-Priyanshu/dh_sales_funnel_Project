@@ -110,6 +110,7 @@ function FollowUpPage() {
                 <th scope="col">FollowUp Phase</th>
                 <th scope="col" >FollowUp Report</th>
                 <th scope="col">Status</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody className='text-center table-group-divider'>
@@ -123,6 +124,7 @@ function FollowUpPage() {
                           <td>{lead.followUpPhase}</td>
                           <td >{lead.followUpReport}</td>
                           <td className='bg-warning'>{lead.status}</td>
+                          <td ><span className='btn btn-danger' >Update</span></td>
                       </tr>
                 })
               }
