@@ -1,6 +1,6 @@
 import Styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 // import all image
@@ -19,11 +19,13 @@ const defaultLead = [{
 function UserHome() {
   const [leadDetails, setLeadDetails] = useState(defaultLead);
   const [leadForm, setLeadForm] = useState({});
+  const curr = useRef();
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(curr.current.click());
     console.log(leadForm);
     axios.post('http://localhost:8080/lead', {u_Id: user.u_Id, ...leadForm})
       .then((res) => {
@@ -98,7 +100,7 @@ function UserHome() {
                     <div className="modal-content">
                       <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">Add Leads</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" ref={curr} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body m-1">
                         <div className='Model_content d-flex flex-column  py-3 px-5' >
