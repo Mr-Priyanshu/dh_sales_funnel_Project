@@ -4,18 +4,17 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const defaultData = {
-  followDate: '',
   followPhase: '',
-  report: '',
+  followUpReport: '',
+  followUpDate: '',
   status: '',
 }
 function FollowUpPage() {
   const [followUp, setFollowUp] = useState([]);
   const [userData, setuserData] = useState({});
-  const [leadReport, setLeadReport] = useState({});
+  const [leadReport, setLeadReport] = useState(defaultData);
   const [nowEffect, setNowEffect] = useState(true);
-  const [formData, setFormData] = useState(defaultData);
-
+  
   const {lead_Id} = useParams();
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
@@ -23,8 +22,8 @@ function FollowUpPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(leadReport);
-    setFormData(defaultData);
-    setNowEffect(false);
+    setLeadReport(defaultData);
+    setNowEffect(!nowEffect);
     axios.post('http://localhost:8080/insertfollowup', {u_Id: user.u_Id, lead_Id, ...leadReport})
       .then((res) => {
           console.log(res.data);
@@ -34,6 +33,7 @@ function FollowUpPage() {
 
   const handleReport = (e, prop) => {
         let value = e.target.value;
+        console.log(leadReport);
         setLeadReport({...leadReport, [prop]: value});
   }
   useEffect(() => {
@@ -62,30 +62,30 @@ function FollowUpPage() {
                   </div>
                   <div class="mx-3">
                     <label for="inputdate" class="form-label">Select FollowUp Date</label>
-                    <input required type="date" value={formData.followDate} onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
+                    <input required value={leadReport.followUpDate} type="date" onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
                   </div>
                   <div className='mx-3'>
                     <label for="phaseDataList" className="form-label">Select FolloUp Phase</label>
-                    <select value={formData.followPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
-                      <option selected>Open this select phase </option>
-                      <option value="1">Phase 1</option>
-                      <option value="2">Phase 2</option>
-                      <option value="3">Phase 3</option>
+                    <select value={leadReport.followPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                    <option disabled value="">Open this select phase</option>
+                    <option value="Phase 1">Phase 1</option>
+                    <option value="Phase 2">Phase 2</option>
+                    <option value="Phase 3">Phase 3</option>
                     </select>
                   </div>
                   <div class="mx-3">
-                    <label for="inputReport" class="form-label">Enter Follow Up Report</label>
-                    <input required value={formData.report} onChange={(e) => handleReport(e, 'followUpReport')} type="input" class="form-control" id="inputReport" />
+                    <label  for="inputReport" class="form-label">Enter Follow Up Report</label>
+                    <input value={leadReport.followUpReport} onChange={(e) => handleReport(e, 'followUpReport')} class="form-control" id="inputReport" required/>
                   </div>
                   <div className='mx-3'>
                     <label for="statusDataList" className="form-label">Select Status</label>
-                    <select required value={formData.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
-                      <option selected>Open this select menu</option>
-                      <option value="1" className='bg-secondary'>On going</option>
-                      <option value="2" className='bg-success'>Done</option>
-                      <option value="3" className='bg-warning'>Pending</option>
-                      <option value="4" className='bg-primary'>Take time</option>
-                      <option value="5" className='bg-danger'>Close</option>
+                    <select required value={leadReport.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                    <option disabled value="">Open this select menu</option>
+                    <option value="On going" className='bg-secondary'>On going</option>
+                    <option value="Done" className='bg-success'>Done</option>
+                    <option value="Pending" className='bg-warning'>Pending</option>
+                    <option value="Take time" className='bg-primary'>Take time</option>
+                    <option value="Close" className='bg-danger'>Close</option>
                     </select>
                   </div>
                   <button type="submit" class="btn btn-dark m-3 ">Submit</button>

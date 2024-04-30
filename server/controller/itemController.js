@@ -1,6 +1,8 @@
 // const {leads} = require('../data');
 // const { v4: uuidv4 } = require('uuid');
 const {db} = require('../config/db');
+const {scheduleEmails, scheduleEmailsDemo} = require('./sheduler/email');
+
 const test = async (req, res) => {
     res.send({data: "Test Sucess Full"});
 }
@@ -111,8 +113,36 @@ const getLeadDetails = async (req, res, next) => {
                     return res.status(400).json({message: 'not found'})
                 }
         
+                function convertUTCtoIST(utcDateTime) {
+                    const options = {
+                        timeZone: 'Asia/Kolkata',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    };
+                
+                    const istDateTime = new Intl.DateTimeFormat('en-IN', options).format(utcDateTime);
+                    return istDateTime;
+                }
                 // Return the retrieved data
-                // console.log(leadResult, followUpResult);
+                leadResult.forEach((obj) => {
+                   let date = convertUTCtoIST(obj.date);
+                   obj.date = date.toString().substring(0, 10);
+                   if(obj.nextFollowDate) {
+                        obj.nextFollowDate = convertUTCtoIST(obj.nextFollowDate) 
+                   }
+                    return obj;
+                })
+                followUpResult.forEach((obj) => {
+                    if(obj.followUpDate) {
+                        obj.followUpDate = convertUTCtoIST(obj.followUpDate);
+                    }
+                    return obj;
+                })
+
                 return res.status(200).json({
                     lead: leadResult,
                     followUp: followUpResult
@@ -141,7 +171,8 @@ const updateMeeting = (req, res, next) => {
         if (updateErr) {
             return res.status(500).json({ err: 'Internal server error' });
         }
-
+        scheduleEmails(nextFollowDate);
+        // scheduleEmailsDemo();
         // Return success response
         return res.status(200).json({
             message: "Lead updated successfully",
