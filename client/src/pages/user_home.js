@@ -241,9 +241,9 @@ function UserHome() {
                             <td>{lead.fullName}</td>
                             <td>{lead.mobileNo}</td>
                             <td>{lead.email}</td>
-                            <td> <span className='btn ' data-bs-toggle="modal" data-bs-target="#ViewAddressModal">View Address</span>
+                            <td> <span className='btn ' data-bs-toggle="modal" data-bs-target={`#ViewAddressModal${index}idx`} >View Address</span>
                               <div className='rounded-3 shadow-lg text-start'>
-                                <div className="modal fade rounded shadow-lg" id="ViewAddressModal" tabindex="-1" aria-labelledby="ViewAddressModalLabel" aria-hidden="true">
+                                <div className="modal fade rounded shadow-lg" id={`ViewAddressModal${index}idx`} tabindex="-1" aria-labelledby="ViewAddressModalLabel" aria-hidden="true">
                                   <div className="modal-dialog modal-dialog-centered">
                                     <div className="modal-content">
                                       <div className="modal-header">
