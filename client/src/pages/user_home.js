@@ -54,27 +54,26 @@ function UserHome() {
         console.log(err, 'err in user home');
       })
   }
-  const handleUpdateLead = (e) => {
+  const handleUpdateLead = (e, lead) => {
     e.preventDefault();
-    console.log(leadForm);
-    setLeadForm(defaultLeadForm);
-    setNowUseEffect(false);
+    console.log(lead);
+    setLeadForm({...defaultLeadForm, fullName: lead.fullName, lead_Id: lead.lead_Id});
     ref.current[1].click();
-    axios.post('http://localhost:8080/updateLead', { ...leadForm })
+    axios.post('http://localhost:8080/updateLead', { ...leadForm})
       .then((res) => {
-        console.log(res.data);
-        return res.data;
-      }).catch((err) => {
-        console.log(err, 'err in user home');
+          console.log(res.data);
+          return res.data;
+        }).catch((err) => {
+          console.log(err, 'err in user home');
       })
+    setNowUseEffect(false);
   }
   const hanldefollowUp = (e) => {
     e.preventDefault();
     console.log(leadForm);
-    setNowUseEffect(false)
     setLeadForm(defaultLeadForm);
     ref.current[2].click();
-
+    
     // console.log(curr.current[2].click());
     axios.put('http://localhost:8080/updateMeeting', { ...leadForm })
       .then((res) => {
@@ -83,6 +82,7 @@ function UserHome() {
       }).catch((err) => {
         console.log(err, 'err in user home');
       })
+    setNowUseEffect(!nowUseEffect)
   }
   const handleLeadForm = (e, prop) => {
     //
@@ -309,42 +309,42 @@ function UserHome() {
                                     <div className="modal-body m-1">
                                       <div className='Model_content d-flex flex-column  py-3 px-5' >
                                         <div>
-                                          <form onSubmit={handleUpdateLead}>
-                                            <div className="mb-3" hidden>
-                                              <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
-                                              <input required value={lead.lead_Id} type="Fullname" onChange={(e) => handleLeadForm(e, 'lead_Id')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Client Name" />
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
-                                              <input required type="text" value={leadForm.fullName} onChange={(e) => handleLeadForm(e, 'fullName')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client  Name" />
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
-                                              <input required type="number" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                                              <input required type="Email" value={leadForm.email} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Address</label>
-                                              <input required type="address" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
-                                            </div>
-                                            <div>
-                                              <label for="exampleDataList" className="form-label">Update Inquery type</label>
-                                              <select required value={leadForm.inquiryType} onChange={(e) => { handleLeadForm(e, 'inquiryType') }} className="form-select form-select-sm" aria-label=".form-select-sm example">
-                                                <option disabled value="">Open this select menu</option>
-                                                <option value="Web Development">Web Development</option>
-                                                <option value="Digital Marketing">Digital Marketing</option>
-                                                <option value="SMO">SMO</option>
-                                                <option value="SMM">SMM</option>
-                                              </select>
-                                            </div>
-                                            <div className='btn btn-dark mt-3' >
-                                              <input type="submit" className='btn btn-dark' />
-                                            </div>
-                                            {/* <Link to='' className='btn btn-dark mt-3 '>Update</Link> */}
-                                          </form>
+                                        <form onSubmit={(e) => handleUpdateLead(e, lead)}>
+                                    {/* <div className="mb-3" >
+                                      <label for="exampleFormControlInput1" className="form-label">Update Client Id</label>
+                                      <input required value={lead.lead_Id}  type="text" className="form-control" id="exampleFormControlInput1" placeholder="Update Client Client Name" />
+                                    </div> */}
+                                    {/* <div className="mb-3" >
+                                      <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
+                                      <input required type="text" value={lead.fullName} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Name" />
+                                    </div> */}
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
+                                      <input required type="number" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Email ID</label>
+                                      <input required type="Email" value={leadForm.email}  onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Address</label>
+                                      <input required type="address" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
+                                    </div>
+                                    <div>
+                                      <label for="exampleDataList" className="form-label">Update Inquery type</label>
+                                      <select required value={leadForm.inquiryType} onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
+                                      <option disabled value="">Open this select menu</option>
+                                      <option value="Web Development">Web Development</option>
+                                      <option value="Digital Marketing">Digital Marketing</option>
+                                      <option value="SMO">SMO</option>
+                                      <option value="SMM">SMM</option>
+                                      </select>
+                                    </div>
+                                    <div className='btn btn-dark mt-3' >
+                                      <input type="submit" className='btn btn-dark' />
+                                    </div>
+                                    {/* <Link to='' className='btn btn-dark mt-3 '>Update</Link> */}
+                                    </form>
                                         </div>
                                       </div>
                                     </div>

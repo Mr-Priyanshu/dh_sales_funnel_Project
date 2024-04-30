@@ -140,6 +140,8 @@ const getLeadDetails = async (req, res, next) => {
                     if(obj.followUpDate) {
                         obj.followUpDate = convertUTCtoIST(obj.followUpDate);
                     }
+                    let date = obj.followUpDate;
+                    obj.followUpDate = date.toString().substring(0, 10);
                     return obj;
                 })
 
