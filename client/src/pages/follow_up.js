@@ -66,7 +66,7 @@ function FollowUpPage() {
                   </div>
                   <div className='mx-3'>
                     <label for="phaseDataList" className="form-label">Select FolloUp Phase</label>
-                    <select value={leadReport.followPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                    <select value={leadReport.followUpPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                     <option disabled value="">Open this select phase</option>
                     <option value="Phase 1">Phase 1</option>
                     <option value="Phase 2">Phase 2</option>
