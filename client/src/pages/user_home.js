@@ -12,7 +12,6 @@ const defaultLead = [{
   mobileNo: '12345678',
   email: 'demo@gmail.com',
   address: 'Demopur',
-  nextFollowDate: '28/04/2024',
   status: 'pending',
   inquiryType: 'Demo type'
 }]
@@ -22,8 +21,8 @@ const defaultLeadForm = {
   email: '',
   address: '',
   inquiryType: '',  
-  upCommingDate: '',
-  upCommingPhase: '',
+  nextFollowDate: '',
+  nextFollowPhase: '',
 }
 function UserHome() {
   const [leadDetails, setLeadDetails] = useState(defaultLead);
@@ -42,7 +41,8 @@ function UserHome() {
     setIsValid(mobileNumberPattern.test(number));
   };
 // -*----------------
-  const curr = useRef();
+  const ref = useRef([]);
+  const pushRef = (el) => ref.current.push(el)
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
 
@@ -51,7 +51,9 @@ function UserHome() {
     setLeadForm(defaultLeadForm);
     setNowUseEffect(false);
     console.log(leadForm);
-    console.log(curr.current.click());
+    ref.current[0].click();
+    // console.dir(curr.current[0]);
+    // console.log(curr.current[0].click());
     axios.post('http://localhost:8080/lead', {u_Id: user.u_Id, ...leadForm})
       .then((res) => {
           console.log(res.data);
@@ -63,6 +65,9 @@ function UserHome() {
   const handleUpdateLead = (e) => {
     e.preventDefault();
     console.log(leadForm);
+    setLeadForm(defaultLeadForm);
+    setNowUseEffect(false);
+    ref.current[1].click();
     axios.post('http://localhost:8080/updateLead', { ...leadForm})
       .then((res) => {
           console.log(res.data);
@@ -74,6 +79,11 @@ function UserHome() {
   const hanldefollowUp = (e) => {
     e.preventDefault();
     console.log(leadForm);
+    setNowUseEffect(false)
+    setLeadForm(defaultLeadForm);
+    ref.current[2].click();
+  
+    // console.log(curr.current[2].click());
     axios.put('http://localhost:8080/updateMeeting', { ...leadForm})
       .then((res) => {
           console.log(res.data);
@@ -102,6 +112,7 @@ function UserHome() {
               return {...item};
             }
           })
+          console.log(arr);
           setLeadDetails(arr);
           console.log(leadDetails);
       }
@@ -125,7 +136,7 @@ function UserHome() {
                     <div className="modal-content">
                       <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">Add Lead</h1>
-                        <button type="button" ref={curr} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" ref={pushRef}  className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body m-1">
                         <div className='Model_content d-flex flex-column  py-3 px-5' >
@@ -146,7 +157,7 @@ function UserHome() {
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Mobile No.</label>
-                              <input required type="text" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
+                              <input required type="number" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Email ID</label>
@@ -159,11 +170,11 @@ function UserHome() {
                             <div>
                               <label for="exampleDataList" className="form-label">Inquery type</label>
                               <select required value={leadForm.inquiryType} onChange={(e) => handleLeadForm(e, 'inquiryType')} className="form-select form-select-sm" aria-label="form-select-sm example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">Web Development</option>
-                                <option value="2">Digital Marketing</option>
-                                <option value="3">SMO</option>
-                                <option value="3">SMM</option>
+                              <option disabled value="">Open this select menu</option>
+                              <option value="Web Development">Web Development</option>
+                              <option value="Digital Marketing">Digital Marketing</option>
+                              <option value="SMO">SMO</option>
+                              <option value="SMM">SMM</option>
                               </select>
                             </div>
                             <div className='mt-3' >
@@ -239,7 +250,7 @@ function UserHome() {
                             <div className="modal-content">
                               <div className="modal-header">
                                 <h1 className="modal-title fs-5" id="exampleModalLabel">Update Leads Details</h1>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button   ref={pushRef} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div className="modal-body m-1">
                                 <div className='Model_content d-flex flex-column  py-3 px-5' >
@@ -269,11 +280,11 @@ function UserHome() {
                                     <div>
                                       <label for="exampleDataList" className="form-label">Update Inquery type</label>
                                       <select required value={leadForm.inquiryType} onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Web Development</option>
-                                        <option value="2">Digital Marketing</option>
-                                        <option value="3">SMO</option>
-                                        <option value="3">SMM</option>
+                                      <option disabled value="">Open this select menu</option>
+                                      <option value="Web Development">Web Development</option>
+                                      <option value="Digital Marketing">Digital Marketing</option>
+                                      <option value="SMO">SMO</option>
+                                      <option value="SMM">SMM</option>
                                       </select>
                                     </div>
                                     <div className='btn btn-dark mt-3' >
@@ -301,23 +312,23 @@ function UserHome() {
                             <div className="modal-content">
                               <div className="modal-header">
                                 <h1 className="modal-title fs-5" id="exampleModalLabel">Add Upcoming Meeting Date</h1>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button ref={pushRef} type="button" className="btn-close twch wala" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div className="modal-body m-1">
                                 <div className='Model_content d-flex flex-column  py-3 px-5' >
                                   <div>
                                     <form onSubmit={hanldefollowUp}>
                                     <div className="mb-3">
-                                      <label for="exampleFormControlInput1" className="form-label">Select Upcoming Meeting Date</label>
-                                      <input type="date" value={leadForm.upCommingDate} onChange={(e) => handleLeadForm(e, 'nextFollowDate')} className="form-control" id="addLeadFormControlInput1" />
-                                    </div>
+                                    <label htmlFor="addLeadFormControlInput1" className="form-label">Select Upcoming Meeting Date and Time</label>
+                                    <input required type="datetime-local" value={leadForm.nextFollowDate} onChange={(e) => handleLeadForm(e, 'nextFollowDate')} className="form-control" id="addLeadFormControlInput1" />
+                                </div>
                                     <div className='mx-3'>
                                       <label for="phaseDataList" className="form-label">Select Upcoming Meeting Phase</label>
-                                      <select value={leadForm.upCommingPhase} onChange={(e) => handleLeadForm(e, 'nextFollowPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
-                                        <option selected>Open this select phase </option>
-                                        <option value="1">Phase 1</option>
-                                        <option value="2">Phase 2</option>
-                                        <option value="3">Phase 3</option>
+                                      <select required  value={leadForm.nextFollowPhase} onChange={(e) => handleLeadForm(e, 'nextFollowPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
+                                      <option disabled value="">Open this select phase</option>
+                                      <option value="Phase 1">Phase 1</option>
+                                      <option value="Phase 2">Phase 2</option>
+                                      <option value="Phase 3">Phase 3</option>
                                       </select>
                                     </div>
                                     <div className='mt-3'>

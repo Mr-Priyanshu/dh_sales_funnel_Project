@@ -8,8 +8,11 @@ import BLogoImg from '../assets/images/brand_logo.png'
 import { GrLogin } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
 
-function Navbar({handle, Ustate}) {
-
+function Navbar() {
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    console.log(localStorage.getItem('user'));
+  }
 
   return (
     <Wrapper>
@@ -40,12 +43,12 @@ function Navbar({handle, Ustate}) {
                 </li> */}
               </ul>
               {/* {
-                Ustate ? <>  <form className="d-flex">
+                localStorage.getItem('user') ? <>  <div className="d-flex">
                   <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                   <button className="btn btn-outline-success me-2" type="submit">Search</button>
-                </form>
-                  <button onClick={() => handle()} className="btn btn-outline-none logout my-2 px-3" type="logout"><Link to="LoginPage"><BiLogOut/> Logout</Link> </button> </> :
-                  <button onClick={() => handle()} className="btn login my-2 px-3 " type="login"><Link to="HomePage">Login <GrLogin /></Link></button>
+                </div>
+                  <button className="btn btn-outline-none logout my-2 px-3" type="logout"><Link to="LoginPage"><BiLogOut/> Logout</Link> </button> </> : ''
+                  // <button onClick={handleLogout} className="btn login my-2 px-3 " type="login"{'>'}<Link to="/">Login <GrLogin /></Link></button>
               } */}
 
               {/* <button onClick={() => using()} className="btn logout my-2 px-3" type="logout">CLICK TO LOGIN</button> */}

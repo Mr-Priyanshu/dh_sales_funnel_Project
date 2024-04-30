@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 
 // const url = process.env.REACT_APP_API_URL;
 
-function LoginPage({handle}) {
+function LoginPage() {
   const [user, setUser] = useState({email: '', password: ''});
   const navigate = useNavigate();
   let log = <GrLogin />;
@@ -52,7 +52,7 @@ function LoginPage({handle}) {
                     <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
                 {/* <button onClick={() => handle()} type="submit" class="btn btn-primary"><Link to="/HomePage">Login</Link></button>  */}
-                <button onClick={() => handle()} type="submit" class="btn btn-primary">Login</button> 
+                <button type="submit" class="btn btn-primary">Login</button> 
               </form>
             </div>
           </div>
