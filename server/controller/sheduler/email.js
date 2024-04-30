@@ -1,11 +1,6 @@
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
-let mailOptions = {
-    from: 'alternatedotme@gmail.com',
-    to: 'siddhartha.marko.3@gmail.com',
-    subject: 'Email from Node-App: A Test Message!',
-    text: 'Some content to send',
-  };
+
 
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -17,8 +12,15 @@ let mailOptions = {
         rejectUnauthorized: false,
       },
   });
+  const sendEmail = (transporter, userEmail) => {
 
-  const sendEmail = (transporter) => {
+    let mailOptions = {
+      from: 'alternatedotme@gmail.com',
+      to: `${userEmail}`,
+      subject: 'Email from Node-App: A Test Message!',
+      text: 'Some content to send',
+    };
+
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.log('Email sending failed:', error);
@@ -34,6 +36,23 @@ const scheduleEmailsDemo = () => {
   const twoMinutesAfter = new Date(currentTime.getTime() + 2 * 60000); // 2 minutes after current time
   const threeMinutesAfter = new Date(currentTime.getTime() + 3 * 60000); // 3 minutes after current time
 
+  const sendEmail = (transporter) => {
+    let mailOptions = {
+      from: 'alternatedotme@gmail.com',
+      to: 'impriyanshu.garg@gmail.com',
+      subject: 'sheduling mail check',
+      text: 'Email from Sales funnel your next meeting reminder Priyanshu',
+    };  
+
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Email sending failed:', error);
+        } else {
+            console.log('Email sent:', info.response); 
+        }
+    });
+};
   console.log('Started schedule emails');
   cron.schedule(oneMinuteAfter.getMinutes() + ' ' + oneMinuteAfter.getHours() + ' * * *', () => { // Send email 1 minute after the current time
     console.log('first');

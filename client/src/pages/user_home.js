@@ -75,7 +75,7 @@ function UserHome() {
     ref.current[2].click();
     
     // console.log(curr.current[2].click());
-    axios.put('http://localhost:8080/updateMeeting', { ...leadForm })
+    axios.put('http://localhost:8080/updateMeeting', { u_Id: user.u_Id, ...leadForm })
       .then((res) => {
         console.log(res.data);
         return res.data;
@@ -91,8 +91,9 @@ function UserHome() {
     if (e.target.name == 'Mobile') {
       if (value.length !== 10) {
         setError(true);
-        if (value.length > 10) {
+        if (value.length > 10) { 
           setError(false);
+          // Correct this Logic 
           return;
         }
       } else {
@@ -302,7 +303,8 @@ function UserHome() {
                                     </div> */}
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
-                                      <input required type="number" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      <input required type="number" name='Mobile' value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      {error && <p style={{color: "red"}}>Please enter a valid 10 digit number.</p>}
                                     </div>
                                     <div className="mb-3">
                                       <label for="exampleFormControlInput1" className="form-label">Email ID</label>

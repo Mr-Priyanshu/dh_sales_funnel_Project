@@ -49,9 +49,38 @@ const updateLead = async (req, res, next) => {
             inquiryType = ?
         WHERE lead_Id = ?
     `;
-    
     db.query(updateLeadQuery, [fullName, mobileNo, email, address, inquiryType, lead_Id], (updateErr, updateResult) => {
         if (updateErr) {
+            return res.status(500).json({ err: 'Internal server error' });
+        }
+        
+        // Return success response
+        console.log(updateResult);
+        return res.status(200).json({
+            message: "Lead updated successfully",
+            result: updateResult
+        });
+    });
+    } catch (e) {
+        // Handle unexpected errors
+        res.status(500).json({ error: e.message });
+    }
+}
+const updateFollowReport = async (req, res, next) => {
+    try {
+        const { report_id, followUpDate, followUpPhase, followUpReport, status } = req.body;
+        console.log( report_id, followUpDate, followUpPhase, followUpReport, status);
+        const updatefollowupQuery = `
+        UPDATE followupreport 
+        SET followUpDate = ?, 
+            followUpPhase = ?, 
+            followUpReport = ?, 
+            status = ?
+        WHERE report_id = ?
+    `;
+    db.query(updatefollowupQuery, [followUpDate, followUpPhase, followUpReport, status, report_id], (updateErr, updateResult) => {
+        if (updateErr) {
+            console.log(updateErr);
             return res.status(500).json({ err: 'Internal server error' });
         }
         
@@ -159,7 +188,7 @@ const getLeadDetails = async (req, res, next) => {
 }
 
 const updateMeeting = (req, res, next) => {
-    const { lead_Id, nextFollowDate, nextFollowPhase } = req.body; 
+    const {u_Id, lead_Id, nextFollowDate, nextFollowPhase } = req.body; 
 
     const updateLeadQuery = `
         UPDATE leads 
@@ -173,8 +202,8 @@ const updateMeeting = (req, res, next) => {
         if (updateErr) {
             return res.status(500).json({ err: 'Internal server error' });
         }
-        scheduleEmails(nextFollowDate);
-        // scheduleEmailsDemo();
+        // scheduleEmails(nextFollowDate);
+        scheduleEmailsDemo();
         // Return success response
         return res.status(200).json({
             message: "Lead updated successfully",
@@ -184,4 +213,4 @@ const updateMeeting = (req, res, next) => {
 };
 
 
-module.exports = {test, addLead,updateLead ,createFollowUpReport , getLeadDetails, updateMeeting};
+module.exports = {test, addLead,updateLead ,createFollowUpReport , getLeadDetails, updateMeeting, updateFollowReport};
