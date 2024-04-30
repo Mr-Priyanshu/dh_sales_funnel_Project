@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // import all image
 import BLogoImg from '../assets/images/brand_logo.png'
@@ -10,6 +10,12 @@ import { BiLogOut } from "react-icons/bi";
 
 function Navbar({Logout}) {
  console.log('first')
+
+ const [user,setUser] = useState(localStorage.getItem('user'));
+
+ useEffect(()=>{
+  setUser(localStorage.getItem('user'))
+ },[localStorage.getItem('user')])
 
   return (
     <Wrapper>
