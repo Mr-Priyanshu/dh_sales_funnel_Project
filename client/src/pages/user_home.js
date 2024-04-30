@@ -29,17 +29,9 @@ function UserHome() {
   const [leadForm, setLeadForm] = useState(defaultLeadForm);
   const [nowUseEffect, setNowUseEffect] =  useState(true);
 // -*------------------------------
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [isValid, setIsValid] = useState(false);
 
-  const handleChange = (event) => {
-    const number = event.target.value;
-    setMobileNumber(number);
+const [error, setError] = useState(false);
 
-    // Regular expression for 10-digit mobile number
-    const mobileNumberPattern = /^[0-9]{10}$/;
-    setIsValid(mobileNumberPattern.test(number));
-  };
 // -*----------------
   const ref = useRef([]);
   const pushRef = (el) => ref.current.push(el)
@@ -93,12 +85,24 @@ function UserHome() {
       })
   }
   const handleLeadForm = (e, prop) => {
-    // prop ko hata kar e.target.name bhi kar sakte hai 
+    //
     let value = e.target.value;
+    // prop ko hata kar e.target.name bhi kar sakte hai 
+    if(e.target.name == 'Mobile') {
+      if(value.length !== 10){
+        setError(true);
+        if(value.length > 10){
+        setError(false);
+          return;
+        }
+      } else {
+      }
+    }
     setLeadForm({...leadForm, [prop]: value});
   }
   
   useEffect(() => {
+    
     axios.get(`http://localhost:8080/getlead/${user.u_Id}`).then((responce) => {
       // console.log(responce.data);
       if(responce.data.lead) {
@@ -157,7 +161,8 @@ function UserHome() {
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Mobile No.</label>
-                              <input required type="number" value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
+                              <input required type="number" name='Mobile' value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Client Number" />
+                              {error && <p>Please enter a valid 10 digit number.</p>}
                             </div>
                             <div className="mb-3">
                               <label for="exampleFormControlInput1" className="form-label">Email ID</label>

@@ -8,15 +8,24 @@ import { useEffect, useState } from "react";
 import FollowUpPage from "./pages/follow_up";
 
 
-function App() {
+function App() {  
+  const [Effect, SetEffect] = useState(false)
+  const handleLogout = () => {
+    console.log('in app.js')
+    localStorage.removeItem('user');
+    console.log(localStorage.getItem('user'));
+    SetEffect(!Effect);
+  }
+  useEffect(() => {}, [Effect])
+
   return (
     <div className="App d-flex flex-column bg-red ">
       <header className="App-header">
-        <Navbar/>
+        <Navbar Logout={handleLogout}/>
       </header>
       <main>
         <Routes>
-          <Route path="/" element={<LoginPage />}></Route>
+          <Route path="/" element={<LoginPage Login={SetEffect}/>}></Route>
           <Route path="/HomePage" element={<UserHome/>}></Route>
           <Route path="/HomePage/FollowUpPage/:lead_Id" element={<FollowUpPage/>}></Route>
         </Routes>

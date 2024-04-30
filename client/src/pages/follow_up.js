@@ -81,11 +81,11 @@ function FollowUpPage() {
                     <label for="statusDataList" className="form-label">Select Status</label>
                     <select required value={leadReport.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                     <option disabled value="">Open this select menu</option>
-                    <option value="On going" className='bg-secondary'>On going</option>
+                    <option value="In" className='bg-secondary'>In</option>
                     <option value="Done" className='bg-success'>Done</option>
-                    <option value="Pending" className='bg-warning'>Pending</option>
-                    <option value="Take time" className='bg-primary'>Take time</option>
-                    <option value="Close" className='bg-danger'>Close</option>
+                    <option value="Hold" className='bg-warning'>Hold</option>
+                    <option value="W I P" className='bg-primary'>W I P</option>
+                    <option value="Out" className='bg-danger'>Out</option>
                     </select>
                   </div>
                   <button type="submit" class="btn btn-dark m-3 ">Submit</button>
@@ -110,7 +110,7 @@ function FollowUpPage() {
                 <th scope="col">FollowUp Phase</th>
                 <th scope="col" >FollowUp Report</th>
                 <th scope="col">Status</th>
-                <th scope="col">Action</th>
+                <th scope="col" colSpan={2}>Action</th>
               </tr>
             </thead>
             <tbody className='text-center table-group-divider'>
@@ -124,7 +124,8 @@ function FollowUpPage() {
                           <td>{lead.followUpPhase}</td>
                           <td >{lead.followUpReport}</td>
                           <td className='bg-warning'>{lead.status}</td>
-                          <td ><span className='btn btn-danger' >Update</span></td>
+                          <td ><span className='btn btn-primary' >Update</span></td>
+                          <td ><span className='btn btn-danger' >Remove</span></td>
                       </tr>
                 })
               }
