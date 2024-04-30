@@ -124,7 +124,48 @@ function FollowUpPage() {
                           <td>{lead.followUpPhase}</td>
                           <td >{lead.followUpReport}</td>
                           <td className='bg-warning'>{lead.status}</td>
-                          <td ><span className='btn btn-primary' >Update</span></td>
+                          <td ><span className='btn btn-primary'data-bs-toggle="modal" data-bs-target="#MonUpdateModal" >Update</span>
+                          <div className='rounded-3 shadow-lg text-start'>
+                              <div className="modal fade rounded shadow-lg" id="MonUpdateModal" tabindex="-1" aria-labelledby="MonUpdateModal" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered">
+                                  <div className="modal-content">
+                                    <div className="modal-header">
+                                      <h1 className="modal-title fs-5" id="exampleModalLabel">Update Leads Details</h1>
+                                      <button  type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body m-1">
+                                      <div className='Model_content d-flex flex-column  py-3 px-5' >
+                                        <div>
+                                        <form >
+                            
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Update Follow Up Date</label>
+                                      <input required type="date" value="" onChange={(e) => "" (e, "")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow up Date" />
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Update Follow Up Phase</label>
+                                      <input required type="text" value=""  onChange={(e) => "" (e, '')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow Up Phase" />
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Update Follow up Report</label>
+                                      <input required type="text" value="" onChange={(e) => (e, "")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow Up Report" />
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Update Status</label>
+                                      <input required type="text" value="" onChange={(e) => ("")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Status" />
+                                    </div>
+                                    <div className='btn btn-dark mt-3' >
+                                      <input type="submit" className='btn btn-dark' />
+                                    </div>
+                                    </form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
                           <td ><span className='btn btn-danger' >Remove</span></td>
                       </tr>
                 })

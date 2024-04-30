@@ -276,25 +276,7 @@ function UserHome() {
                             {/* Modals */}
 
                             {/* View Address Modal  Model  */}
-                            {/* <div className='rounded-3 shadow-lg text-start'>
-                        <div className="modal fade rounded shadow-lg" id="ViewAddressModal" tabindex="-1" aria-labelledby="ViewAddressModalLabel" aria-hidden="true">
-                          <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                              <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="exampleModalLabel">Client Address Details</h1>
-                                <button  type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <div className="modal-body m-1">
-                                <div className='Model_content d-flex flex-column  py-3 px-5' >
-                                  <div>
-                                    {lead.address}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
+                              {/* View Address Modal Add in Table Colum */}
                             {/* View Address Close  Model  */}
 
                             {/* Table Leads Data Update Model  */}
