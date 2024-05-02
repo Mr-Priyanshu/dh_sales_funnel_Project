@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
-const saveHere = {};
+const {schedulWork} = require('../itemController.js')
+// const saveHere = {};
 
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -65,14 +66,14 @@ console.log('Started schedule emails');
   // console.log(transporter, email);
   sendEmail(transporter, userEmail, clientName, meetTime, meetDate, userId);
   let taskId = '';
-  const removeids = [`task-${userId}fourth`, `task-${userId}third`, `task-${userId}second`, `task-${userId}one`];
+//   const removeids = [`task-${userId}fourth`, `task-${userId}third`, `task-${userId}second`, `task-${userId}one`];
 
-  for (let taskId of removeids) {
-    if (saveHere[taskId]) {
-      saveHere[taskId].stop();
-        delete saveHere[taskId];
-    }
-}
+//   for (let taskId of removeids) {
+//     if (saveHere[taskId]) {
+//       saveHere[taskId].stop();
+//         delete saveHere[taskId];
+//     }
+// }
   
   if (oneWeekBefore.getTime() > currentTime.getTime()) {
     taskId = `task-${userId}fourth`;
@@ -110,7 +111,7 @@ console.log('Started schedule emails');
 };
 
 const scheduleEmailsFinalDemo = (dateAndTime, userEmail, userId, clientName ) => {
-  // meetTime, meetDate
+
   const targetTime = new Date(dateAndTime); // Given date and time
   const currentTime = new Date();
   
@@ -132,20 +133,19 @@ console.log('Started schedule emails');
 
   sendEmail(transporter, userEmail, clientName, meetTime, meetDate, userId);
   let taskId = '';
-  const removeids = [`task-${userId}fourth`, `task-${userId}third`, `task-${userId}second`, `task-${userId}one`];
+//   const removeids = [`task-${userId}fourth`, `task-${userId}third`, `task-${userId}second`, `task-${userId}one`];
 
-  for (let taskId of removeids) {
-    if (saveHere[taskId]) {
-      saveHere[taskId].stop();
-        delete saveHere[taskId];
-    }
-}
+//   for (let taskId of removeids) {
+//     if (saveHere[taskId]) {
+//       saveHere[taskId].stop();
+//         delete saveHere[taskId];
+//     }
+// }
 
   // if (oneWeekBefore.getTime() > currentTime.getTime()) {
   if (oneWeekBefore.getTime() > currentTime.getTime()) {
     taskId = `task-${userId}fourth`;
-    console.log('One Week Before: ' + oneWeekBefore.toLocaleDateString('en-IN') + ' 17:29 AM');
-
+    // console.log('One Week Before: ' + oneWeekBefore.toLocaleDateString('en-IN') + ' 17:29 AM');
     saveHere[taskId] =  cron.schedule('0 10 ' + oneWeekBefore.getDate() + ' ' + (oneWeekBefore.getMonth() + 1) + ' *', () => {
       console.log('Email scheduled for 7 days before');
       sendEmail(transporter, userEmail, clientName, meetTime, meetDate, userId);
