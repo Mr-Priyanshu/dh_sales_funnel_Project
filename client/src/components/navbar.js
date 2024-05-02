@@ -35,11 +35,7 @@ function Navbar({Logout}) {
                 </li>
               </ul>
               {
-                localStorage.getItem('user') ? <>  <div className="d-flex">
-                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                  <button className="btn btn-outline-success me-2" type="submit">Search</button>
-                </div>
-                  <button onClick={Logout} className="btn btn-outline-none text-danger logout my-2 px-3"><BiLogOut /> Logout</button> </> :
+                localStorage.getItem('user') ? <> <button onClick={Logout} className="btn btn-outline-none text-danger logout my-2 px-3"><BiLogOut /> Logout</button> </> :
                   <button  className="btn login my-2 px-3 " type="login" > Login <GrLogin /></button>
               }
 

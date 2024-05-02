@@ -1,4 +1,4 @@
-import Styled, { createGlobalStyle } from 'styled-components';
+  import Styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
@@ -28,15 +28,35 @@ function UserHome() {
   const [leadDetails, setLeadDetails] = useState(defaultLead);
   const [leadForm, setLeadForm] = useState(defaultLeadForm);
   const [nowUseEffect, setNowUseEffect] = useState(true);
-  // -*------------------------------
-
   const [error, setError] = useState(false);
-
-  // -*----------------
+  const [sliced, setSliced] = useState([]);
+  // -*------------------------------
+  
   const ref = useRef([]);
   const pushRef = (el) => ref.current.push(el)
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
+
+  const handleSearch = (e) => {
+    let value = e.target.value.toLowerCase();
+    let filterData = leadDetails.filter((item) => {
+        for (let key in item) {
+            if (typeof item[key] === 'string') {
+                let word = item[key].toLowerCase();
+                if (word.includes(value)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    });
+console.log(filterData);
+    setSliced(filterData);
+    if (value === '') {
+        setNowUseEffect(!nowUseEffect);
+    }
+}
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -112,13 +132,14 @@ function UserHome() {
         let arr = leadArray.map((item) => {
           let follow = followUpArray.find((followItem) => followItem.lead_Id == item.lead_Id);
           if (follow) {
-            return { ...item, status: follow.status };
-          } else {
-            return { ...item };
-          }
+            item.status = follow.status;
+            // return { ...item, status: follow.status };
+          } 
+          return { ...item, searched: false, };
         })
         console.log(arr);
         setLeadDetails(arr);
+        setSliced(arr);
         console.log(leadDetails);
       }
       return responce.data;
@@ -133,7 +154,15 @@ function UserHome() {
         <div className="  my-4 ">
           <div>
             <div className='m-1 pb-4'><br />
-              <Link to="/AddLeadsPage" className='btn btn-info ' data-bs-toggle="modal" data-bs-target="#1AddLeadsModal">Add Lead</Link>
+            <div className='d-flex justify-content-between flex-wrap'>
+                <button className='btn btn-info ' data-bs-toggle="modal" data-bs-target="#1AddLeadsModal">Add Lead</button>
+                <div className="d-flex">
+                    {/* <input value={search} onChange={(e) => setSearch(e.target.value)} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button onClick={handleSearch} className="btn btn-outline-success me-2" type="submit">Search</button> */}
+                     <input onChange={handleSearch} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                  </div>
+
+            </div>
               {/* Model Box to Add Leads Details  */}
               <div className='rounded-3 shadow-lg'>
                 <div className="modal fade rounded shadow-lg" id="1AddLeadsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -179,8 +208,11 @@ function UserHome() {
                                   <option disabled value="">Open this select menu</option>
                                   <option value="Web Development">Web Development</option>
                                   <option value="Digital Marketing">Digital Marketing</option>
-                                  <option value="SMO">SMO</option>
+                                  <option value="Whatsapp Marketing">Whatsapp Marketing</option>
                                   <option value="SMM">SMM</option>
+                                  <option value="SMO">SMO</option>
+                                  <option value="SEO">SEO</option>
+                                  <option value="GMD">GMD</option>
                                 </select>
                               </div>
                               <div className='mt-3' >
@@ -233,7 +265,7 @@ function UserHome() {
                       <td className='bg-warning'>Pending</td>
                       <td>Digital Marketing</td> */}
                     {
-                      leadDetails.map((lead, index) => {
+                      sliced.map((lead, index) => {
                         return <>
                           <tr className='text-center'>
                             {/* <td scope="row">{index+1}</td> */}
