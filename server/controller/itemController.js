@@ -219,6 +219,21 @@ const updateMeeting = (req, res, next) => {
     });
 };
 
+const schedulWork = () => {
+    try {
+        const scheduling = 'SELECT * FROM scheduling';
+        db.query(scheduling, (err, res) => {
+            if (err) {
+                return { error: 'Internal server error' };
+            }
+            return res;
+        });
 
 
-module.exports = {test, addLead,updateLead ,createFollowUpReport , getLeadDetails, updateMeeting, updateFollowReport};
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+};
+
+
+module.exports = {schedulWork, test, addLead,updateLead ,createFollowUpReport , getLeadDetails, updateMeeting, updateFollowReport};
