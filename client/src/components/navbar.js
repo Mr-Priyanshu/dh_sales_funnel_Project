@@ -9,9 +9,7 @@ import { GrLogin } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
 
 function Navbar({Logout}) {
- console.log('first')
-
- const [user,setUser] = useState(localStorage.getItem('user'));
+  const [user,setUser] = useState(localStorage.getItem('user'));
 
  useEffect(()=>{
   setUser(localStorage.getItem('user'))
@@ -30,17 +28,18 @@ function Navbar({Logout}) {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
 
-                  <Link className="nav-link active mpadding " aria-current="page" to="/HomePage">Home</Link>
+                  {!localStorage.getItem('user') || <Link className="nav-link active mpadding " aria-current="page" to="/HomePage">Home</Link>
+
+                  }
+
                 </li>
-
-
               </ul>
               {
                 localStorage.getItem('user') ? <>  <div className="d-flex">
                   <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                   <button className="btn btn-outline-success me-2" type="submit">Search</button>
                 </div>
-                  <button onClick={Logout} className="btn btn-outline-none logout my-2 px-3" type="logout"><Link to="/"><BiLogOut /> Logout</Link> </button> </> :
+                  <button onClick={Logout} className="btn btn-outline-none text-danger logout my-2 px-3"><BiLogOut /> Logout</button> </> :
                   <button  className="btn login my-2 px-3 " type="login" > Login <GrLogin /></button>
               }
 

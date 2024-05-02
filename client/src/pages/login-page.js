@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 function LoginPage({Login}) {
   const [user, setUser] = useState({email: '', password: ''});
   const navigate = useNavigate();
-  let log = <GrLogin />;
+  // let log = <GrLogin />;
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +52,7 @@ function LoginPage({Login}) {
                     <label className="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
                 {/* <button onClick={() => handle()} type="submit" className="btn btn-primary"><Link to="/HomePage">Login</Link></button>  */}
-                <button onClick={()=> Login(pre => !pre)} type="submit" className="btn btn-primary"><Link to="/HomePage">Login</Link></button> 
+                <button onClick={()=> Login(pre => !pre)} type="submit" className="btn btn-primary">Login</button> 
               </form>
             </div>
           </div>

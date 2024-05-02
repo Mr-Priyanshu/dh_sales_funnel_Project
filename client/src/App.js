@@ -1,25 +1,24 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-// import AdminHome from "./pages/admin_home";
 import LoginPage from "./pages/login-page";
 import UserHome from "./pages/user_home";
 import { useEffect, useState } from "react";
 import FollowUpPage from "./pages/follow_up";
 
-
 function App() {  
   const [Effect, SetEffect] = useState(false)
+    const navigate = useNavigate()
   const handleLogout = () => {
-    console.log('in app.js')
+    // console.log('in app.js')
     localStorage.removeItem('user');
     console.log(localStorage.getItem('user'));
+    navigate('/');
     SetEffect(!Effect);
   }
   useEffect(() => {}, [Effect])
-
   return (
-    <div className="App d-flex flex-column bg-red ">
+    <div className="App d-flex flex-column bg-red">
       <header className="App-header">
         <Navbar Logout={handleLogout}/>
       </header>
