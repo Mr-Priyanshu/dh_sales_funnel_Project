@@ -28,6 +28,7 @@ function FollowUpPage() {
     axios.post('http://localhost:8080/insertfollowup', { u_Id: user.u_Id, lead_Id, ...leadReport })
       .then((res) => {
         console.log(res.data);
+        alert("Successfully added follow up report.");
         return res.data;
       }).catch((err) => console.log(err, 'in the followPage'));
   }
@@ -46,6 +47,7 @@ function FollowUpPage() {
     axios.put(`http://localhost:8080/updateFollowReport`, { report_id: followUp[index].report_id, ...leadReport })
       .then((res) => {
         console.log(res.data);
+        alert("Successfully update follow up report.");
         return res.data
       })
       .catch((err) => console.log(err, 'Error in followUpdate'));
@@ -187,7 +189,7 @@ function FollowUpPage() {
                                         <label for="exampleFormControlInput1" className="form-label">Update Follow up Report</label>
                                         <input required type="text" value={leadReport.followUpReport} onChange={(e) => handleReport(e, "followUpReport")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow Up Report" />
                                       </div>
-                                      <div className='mx-3'>
+                                      <div className='mb-3'>
                                         <label for="phaseDataList" className="form-label">Update Follow Up Phase</label>
                                         <select value={leadReport.followUpPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                                           <option disabled value="">Open this select phase</option>
@@ -199,7 +201,7 @@ function FollowUpPage() {
                                           <option value="Phase 6">Phase 6</option>
                                         </select>
                                       </div>
-                                      <div className='mx-3'>
+                                      <div className='mb-3'>
                                         <label for="statusDataList" className="form-label">Select Status</label>
                                         <select required value={leadReport.status} onChange={(e) => handleReport(e, 'status')} className="form-select form-select-sm" aria-label="form-select-lg status">
                                           <option disabled value="">Open this select menu</option>
@@ -222,7 +224,7 @@ function FollowUpPage() {
                         </div>
                       </div>
                     </td>
-                    <td ><span className='btn btn-danger' >Remove</span></td>
+                    <td ><span className='btn btn-danger' onClick={()=> alert("This function is not available for you")} >Remove</span></td>
                   </tr>
                 })
               }

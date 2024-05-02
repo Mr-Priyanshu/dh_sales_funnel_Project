@@ -70,6 +70,7 @@ console.log(filterData);
     axios.post('http://localhost:8080/lead', { u_Id: user.u_Id, ...leadForm })
       .then((res) => {
         console.log(res.data);
+        alert("Lead successfully added.");
         return res.data;
       }).catch((err) => {
         console.log(err, 'err in user home');
@@ -100,6 +101,7 @@ console.log(filterData);
     axios.put('http://localhost:8080/updateMeeting', { u_Id: user.u_Id,userName: user.name ,emails: user.email, ...leadForm })
       .then((res) => {
         console.log(res.data);
+        alert("Meeting scheduled successfully.");
         return res.data;
       }).catch((err) => {
         console.log(err, 'err in user home');
@@ -310,10 +312,6 @@ console.log(filterData);
 
                             {/* Modals */}
 
-                            {/* View Address Modal  Model  */}
-                              {/* View Address Modal Add in Table Colum */}
-                            {/* View Address Close  Model  */}
-
                             {/* Table Leads Data Update Model  */}
                             <div className='rounded-3 shadow-lg text-start'>
                               <div className="modal fade rounded shadow-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -395,7 +393,7 @@ console.log(filterData);
                                               <label htmlFor="addLeadFormControlInput1" className="form-label">Select Upcoming Meeting Date and Time</label>
                                               <input required type="datetime-local" value={leadForm.nextFollowDate} onChange={(e) => handleLeadForm(e, 'nextFollowDate')} className="form-control" id="addLeadFormControlInput1" />
                                             </div>
-                                            <div className='mx-3'>
+                                            <div className='mb-3'>
                                               <label for="phaseDataList" className="form-label">Select Upcoming Meeting Phase</label>
                                               <select required value={leadForm.nextFollowPhase} onChange={(e) => handleLeadForm(e, 'nextFollowPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                                                 <option disabled value="">Open this select phase</option>
