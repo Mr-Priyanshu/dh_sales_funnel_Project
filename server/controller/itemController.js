@@ -1,7 +1,7 @@
 // const {leads} = require('../data');
 // const { v4: uuidv4 } = require('uuid');
 const {db} = require('../config/db');
-const {scheduleEmails, scheduleEmailsDemo} = require('./sheduler/email');
+const {scheduleEmails, scheduleEmailsDemo, scheduleEmailsFinalDemo} = require('./sheduler/email');
 
 const test = async (req, res) => {
     res.send({data: "Test Sucess Full"});
@@ -191,7 +191,7 @@ const getLeadDetails = async (req, res, next) => {
 }
 
 const updateMeeting = (req, res, next) => {
-    const {u_Id, lead_Id, nextFollowDate, nextFollowPhase } = req.body; 
+    const {u_Id, userName, emails, lead_Id, nextFollowDate, nextFollowPhase } = req.body; 
 
     const updateLeadQuery = `
         UPDATE leads 
@@ -200,13 +200,17 @@ const updateMeeting = (req, res, next) => {
             nextFollowPhase = ?
         WHERE lead_Id = ?
     `;
+    console.log(emails);
     console.log('yes in the update meeting');
+    console.log(nextFollowDate)
     db.query(updateLeadQuery, [nextFollowDate, nextFollowPhase, lead_Id], (updateErr, updateResult) => {
         if (updateErr) {
             return res.status(500).json({ err: 'Internal server error' });
         }
-        // scheduleEmails(nextFollowDate);
-        scheduleEmailsDemo();
+
+        // scheduleEmails(nextFollowDate, emails, u_Id, userName);
+            scheduleEmailsFinalDemo(nextFollowDate, emails, u_Id, userName);
+        // scheduleEmailsDemo(emails);
         // Return success response
         return res.status(200).json({
             message: "Lead updated successfully",
@@ -214,6 +218,7 @@ const updateMeeting = (req, res, next) => {
         });
     });
 };
+
 
 
 module.exports = {test, addLead,updateLead ,createFollowUpReport , getLeadDetails, updateMeeting, updateFollowReport};

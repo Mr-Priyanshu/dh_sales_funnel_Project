@@ -36,6 +36,7 @@ function UserHome() {
   const pushRef = (el) => ref.current.push(el)
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
+  console.log(user);
 
   const handleSearch = (e) => {
     let value = e.target.value.toLowerCase();
@@ -95,7 +96,8 @@ console.log(filterData);
     ref.current[2].click();
     
     // console.log(curr.current[2].click());
-    axios.put('http://localhost:8080/updateMeeting', { u_Id: user.u_Id, ...leadForm })
+    console.log(user.email);
+    axios.put('http://localhost:8080/updateMeeting', { u_Id: user.u_Id,userName: user.name ,emails: user.email, ...leadForm })
       .then((res) => {
         console.log(res.data);
         return res.data;
@@ -285,7 +287,7 @@ console.log(filterData);
                                       </div>
                                       <div className="modal-body m-1">
                                         <div className='Model_content d-flex flex-column  py-3 px-5' >
-                                          <div>
+                                          <div> 
                                             {lead.address}
                                           </div>
                                         </div>
@@ -352,7 +354,9 @@ console.log(filterData);
                                       <option disabled value="">Open this select menu</option>
                                       <option value="Web Development">Web Development</option>
                                       <option value="Digital Marketing">Digital Marketing</option>
+                                      <option value="Digital Marketing">Whatsapp Marketing</option>
                                       <option value="SMO">SMO</option>
+                                      <option value="SEO">SEO</option>
                                       <option value="SMM">SMM</option>
                                       </select>
                                     </div>
@@ -398,6 +402,9 @@ console.log(filterData);
                                                 <option value="Phase 1">Phase 1</option>
                                                 <option value="Phase 2">Phase 2</option>
                                                 <option value="Phase 3">Phase 3</option>
+                                                <option value="Phase 4">Phase 4</option>
+                                                <option value="Phase 5">Phase 5</option>
+                                                <option value="Phase 6">Phase 6</option>
                                               </select>
                                             </div>
                                             <div className='mt-3'>

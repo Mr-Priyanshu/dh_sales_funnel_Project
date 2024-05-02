@@ -77,16 +77,20 @@ function FollowUpPage() {
                   <input type="email" value={userData.fullName} class="form-control" id="exampleInputEmail1" aria-describedby="Clientname" placeholder='Mansingh ' disabled />
                 </div>
                 <div class="mx-3">
-                  <label for="inputdate" class="form-label">Select FollowUp Date</label>
+                  <label for="inputdate" class="form-label">Select Follow Up Date</label>
                   <input required value={leadReport.followUpDate} type="date" onChange={(e) => handleReport(e, 'followUpDate')} class="form-control" id="inputdate" />
                 </div>
                 <div className='mx-3'>
-                  <label for="phaseDataList" className="form-label">Select FolloUp Phase</label>
+                  <label for="phaseDataList" className="form-label">Select Follow Up Phase</label>
                   <select value={leadReport.followUpPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                     <option disabled value="">Open this select phase</option>
                     <option value="Phase 1">Phase 1</option>
                     <option value="Phase 2">Phase 2</option>
                     <option value="Phase 3">Phase 3</option>
+                    <option value="Phase 4">Phase 4</option>
+                    <option value="Phase 5">Phase 5</option>
+                    <option value="Phase 6">Phase 6</option>
+
                   </select>
                 </div>
                 <div class="mx-3">
@@ -179,18 +183,21 @@ function FollowUpPage() {
                                         <label for="exampleFormControlInput1" className="form-label">Update Follow Up Date</label>
                                         <input required type="date" value={leadReport.followUpDate} onChange={(e) => handleReport(e, "followUpDate")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow up Date" />
                                       </div>
+                                      <div className="mb-3">
+                                        <label for="exampleFormControlInput1" className="form-label">Update Follow up Report</label>
+                                        <input required type="text" value={leadReport.followUpReport} onChange={(e) => handleReport(e, "followUpReport")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow Up Report" />
+                                      </div>
                                       <div className='mx-3'>
-                                        <label for="phaseDataList" className="form-label">Update FolloUp Phase</label>
+                                        <label for="phaseDataList" className="form-label">Update Follow Up Phase</label>
                                         <select value={leadReport.followUpPhase} onChange={(e) => handleReport(e, 'followUpPhase')} className="form-select form-select-sm" aria-label=".form-select-sm status">
                                           <option disabled value="">Open this select phase</option>
                                           <option value="Phase 1">Phase 1</option>
                                           <option value="Phase 2">Phase 2</option>
                                           <option value="Phase 3">Phase 3</option>
+                                          <option value="Phase 4">Phase 4</option>
+                                          <option value="Phase 5">Phase 5</option>
+                                          <option value="Phase 6">Phase 6</option>
                                         </select>
-                                      </div>
-                                      <div className="mb-3">
-                                        <label for="exampleFormControlInput1" className="form-label">Update Follow up Report</label>
-                                        <input required type="text" value={leadReport.followUpReport} onChange={(e) => handleReport(e, "followUpReport")} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Follow Up Report" />
                                       </div>
                                       <div className='mx-3'>
                                         <label for="statusDataList" className="form-label">Select Status</label>
