@@ -136,6 +136,7 @@ const getLeadDetails = async (req, res, next) => {
                    }
                     return obj;
                 })
+
                 followUpResult.forEach((obj) => {
                     if(obj.followUpDate) {
                         obj.followUpDate = convertUTCtoIST(obj.followUpDate);
@@ -144,7 +145,9 @@ const getLeadDetails = async (req, res, next) => {
                     obj.followUpDate = date.toString().substring(0, 10);
                     return obj;
                 })
-
+                
+                leadResult.reverse();
+                followUpResult.reverse();
                 return res.status(200).json({
                     lead: leadResult,
                     followUp: followUpResult
