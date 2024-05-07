@@ -8,7 +8,7 @@ import FollowUpPage from "./pages/follow_up";
 
 function App() {  
   const [Effect, SetEffect] = useState(false)
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const handleLogout = () => {
     // console.log('in app.js')
     localStorage.removeItem('user');
@@ -20,12 +20,13 @@ function App() {
   return (
     <div className="App d-flex flex-column bg-red">
       <header className="App-header">
-        <Navbar Logout={handleLogout}/>
+        <Navbar Logout={handleLogout} />
       </header>
+    
       <main>
         <Routes>
-          <Route path="/" element={<LoginPage Login={SetEffect}/>}></Route>
-          <Route path="/HomePage" element={<UserHome/>}></Route>
+          <Route path="/" element={<LoginPage Login={SetEffect} />}></Route>
+          <Route path="/HomePage" element={<UserHome />}></Route>
           <Route path="/HomePage/FollowUpPage/:lead_Id" element={<FollowUpPage/>}></Route>
         </Routes>
       </main>

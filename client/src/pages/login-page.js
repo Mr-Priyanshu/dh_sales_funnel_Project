@@ -18,13 +18,16 @@ function LoginPage({Login}) {
     axios.post("http://localhost:8080/login", user)
     .then((responce) => {
       let save = responce.data.user.result[0];
-      console.log(save);
       save = JSON.stringify(save);
       localStorage.setItem('user',save)
       console.log(responce.data);
+      alert("User Login Successfully");
       navigate('/HomePage');
     })
-    .catch((err) => console.log(err, "This is error"));
+    .catch((err) => {
+      console.log(err, "This is error");
+      alert("Wrong Credential");
+    });
   }
   return (
     <Wrapper>

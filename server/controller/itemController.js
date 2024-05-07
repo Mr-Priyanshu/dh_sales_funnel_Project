@@ -209,7 +209,7 @@ const updateMeeting = (req, res, next) => {
         }
 
         // scheduleEmails(nextFollowDate, emails, u_Id, userName);
-            scheduleEmailsFinalDemo(nextFollowDate, emails, u_Id, userName);
+            // scheduleEmailsFinalDemo(nextFollowDate, emails, u_Id, userName);
         // scheduleEmailsDemo(emails);
         // Return success response
         return res.status(200).json({
