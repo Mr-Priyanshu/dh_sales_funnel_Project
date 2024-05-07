@@ -1,6 +1,7 @@
 const {db} = require('../config/db');
 const {scheduleEmails, scheduleEmailsDemo, scheduleEmailsFinalDemo, removeSchedule} = require('./sheduler/email');
 let scheduledJob = null;
+
 const test = async (req, res) => {
     res.send({data: "Test Sucess Full"});
 }
@@ -12,7 +13,6 @@ const addLead = async (req, res, next) => {
         const insertLead = `INSERT INTO leads (
             u_Id, fullName, mobileNo, email, address, inquiryType) VALUES (?, ?, ?, ?, ?, ? )`;
         const insertLeadParams = [ u_Id,  fullName, mobileNo, email, address, inquiryType];
-
         db.query(
             insertLead, 
             insertLeadParams, 
