@@ -1,7 +1,9 @@
-import styled from 'styled-components';
+  import Styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useEffect,useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+
+// import all image
 
 const defaultLead = [{
   lead_Id: '1234',
@@ -29,7 +31,9 @@ function UserHome() {
   const [error, setError] = useState(false);
   const [sliced, setSliced] = useState([]);
   // -*------------------------------
-
+  
+  const ref = useRef([]);
+  const pushRef = (el) => ref.current.push(el)
   let user = localStorage.getItem('user');
   user = JSON.parse(user);
   console.log(user);
@@ -37,45 +41,35 @@ function UserHome() {
   const handleSearch = (e) => {
     let value = e.target.value.toLowerCase();
     let filterData = leadDetails.filter((item) => {
-      for (let key in item) {
-        if (typeof item[key] === 'string') {
-          let word = item[key].toLowerCase();
-          if (word.includes(value)) {
-            return true;
-          }
+        for (let key in item) {
+            if (typeof item[key] === 'string') {
+                let word = item[key].toLowerCase();
+                if (word.includes(value)) {
+                    return true;
+                }
+            }
         }
-      }
-      return false;
+        return false;
     });
-    console.log(filterData);
+console.log(filterData);
     setSliced(filterData);
     if (value === '') {
-      setNowUseEffect(!nowUseEffect);
+        setNowUseEffect(!nowUseEffect);
     }
-  }
+}
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLeadForm(defaultLeadForm);
+    setNowUseEffect(false);
     console.log(leadForm);
-    // ref.current[0].click();
-    let modalHeader = e.target.closest('.modal').querySelector('.modal-header');
-    if (modalHeader) {
-        // Find the close button within the modal header
-        let btn = modalHeader.querySelector('.btn-close');
-        console.log(btn);
-        btn.click();
-    } else {
-        console.log('Modal header not found');
-    }
+    ref.current[0].click();
     // console.dir(curr.current[0]);
     // console.log(curr.current[0].click());
     axios.post('http://localhost:8080/lead', { u_Id: user.u_Id, ...leadForm })
       .then((res) => {
         console.log(res.data);
-        setNowUseEffect(!nowUseEffect);
-
         alert("Lead successfully added.");
         return res.data;
       }).catch((err) => {
@@ -85,35 +79,26 @@ function UserHome() {
   const handleUpdateLead = (e, lead) => {
     e.preventDefault();
     console.log(lead);
-    setLeadForm({ ...defaultLeadForm, fullName: lead.fullName, lead_Id: lead.lead_Id });
-    // ref.current[1].click();
-    let modalHeader = e.target.closest('.modal').querySelector('.modal-header');
-    if (modalHeader) {
-        // Find the close button within the modal header
-        let btn = modalHeader.querySelector('.btn-close');
-        console.log(btn);
-        btn.click();
-    } else {
-        console.log('Modal header not found');
-    }
-    axios.post('http://localhost:8080/updateLead', { ...leadForm })
+    setLeadForm({...defaultLeadForm, fullName: lead.fullName, lead_Id: lead.lead_Id});
+    ref.current[1].click();
+    axios.post('http://localhost:8080/updateLead', { ...leadForm})
       .then((res) => {
-        console.log(res.data);
-        return res.data;
-      }).catch((err) => {
-        console.log(err, 'err in user home');
+          console.log(res.data);
+          return res.data;
+        }).catch((err) => {
+          console.log(err, 'err in user home');
       })
-    setNowUseEffect(!setNowUseEffect);
+    setNowUseEffect(false);
   }
   const hanldefollowUp = (e) => {
     e.preventDefault();
     console.log(leadForm);
     setLeadForm(defaultLeadForm);
-    // ref.current[2].click();
-
+    ref.current[2].click();
+    
     // console.log(curr.current[2].click());
     console.log(user.email);
-    axios.put('http://localhost:8080/updateMeeting', { u_Id: user.u_Id, userName: user.name, emails: user.email, ...leadForm })
+    axios.put('http://localhost:8080/updateMeeting', { u_Id: user.u_Id,userName: user.name ,emails: user.email, ...leadForm })
       .then((res) => {
         console.log(res.data);
         alert("Meeting scheduled successfully.");
@@ -122,15 +107,6 @@ function UserHome() {
         console.log(err, 'err in user home');
       })
     setNowUseEffect(!nowUseEffect)
-    let modalHeader = e.target.closest('.modal').querySelector('.modal-header');
-    if (modalHeader) {
-        // Find the close button within the modal header
-        let btn = modalHeader.querySelector('.btn-close');
-        console.log(btn);
-        btn.click();
-    } else {
-        console.log('Modal header not found');
-    }
   }
   const handleLeadForm = (e, prop) => {
     //
@@ -139,7 +115,7 @@ function UserHome() {
     if (e.target.name == 'Mobile') {
       if (value.length !== 10) {
         setError(true);
-        if (value.length > 10) {
+        if (value.length > 10) { 
           setError(false);
           // Correct this Logic 
           return;
@@ -162,7 +138,7 @@ function UserHome() {
           if (follow) {
             item.status = follow.status;
             // return { ...item, status: follow.status };
-          }
+          } 
           return { ...item, searched: false, };
         })
         console.log(arr);
@@ -182,15 +158,15 @@ function UserHome() {
         <div className="  my-4 ">
           <div>
             <div className='m-1 pb-4'><br />
-              <div className='d-flex justify-content-between flex-wrap'>
+            <div className='d-flex justify-content-between flex-wrap'>
                 <button className='btn btn-info ' data-bs-toggle="modal" data-bs-target="#1AddLeadsModal">Add Lead</button>
                 <div className="d-flex">
-                  {/* <input value={search} onChange={(e) => setSearch(e.target.value)} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    {/* <input value={search} onChange={(e) => setSearch(e.target.value)} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                     <button onClick={handleSearch} className="btn btn-outline-success me-2" type="submit">Search</button> */}
-                  <input onChange={handleSearch} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                </div>
+                     <input onChange={handleSearch} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                  </div>
 
-              </div>
+            </div>
               {/* Model Box to Add Leads Details  */}
               <div className='rounded-3 shadow-lg'>
                 <div className="modal fade rounded shadow-lg" id="1AddLeadsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -198,7 +174,7 @@ function UserHome() {
                     <div className="modal-content">
                       <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">Add Lead</h1>
-                        <button type="button"  className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" ref={pushRef} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body m-1">
                         <div className='Model_content d-flex flex-column  py-3 px-5' >
@@ -265,18 +241,18 @@ function UserHome() {
               <div className="table-responsive">
                 <table className="table text-decoration-none table-hover">
                   <thead className='table-dark'>
-                    <tr className='text-center '>
+                    <tr className='text-center'>
                       {/* <th scope="col">S.no.</th>
                       <th scope="col">Client ID</th> */}
-                      <th className='align-middle' scope="col">Lead Generation Date</th>
-                      <th className='align-middle' scope="col">Client Name </th>
-                      <th className='align-middle' scope="col">Mobile No.</th>
-                      <th className='align-middle' scope="col">Email ID</th>
-                      <th className='align-middle' scope="col">Address</th>
-                      <th className='align-middle' scope="col">Upcoming Meeting </th>
-                      <th className='align-middle' scope="col">Status</th>
-                      <th className='align-middle' scope="col">Service(s)</th>
-                      <th className='align-middle' scope="col" colspan="3" >Action</th>
+                      <th scope="col">Lead Generation Date</th>
+                      <th scope="col">Client Name </th>
+                      <th scope="col">Mobile No.</th>
+                      <th scope="col">Email ID</th>
+                      <th scope="col">Address</th>
+                      <th scope="col">Upcoming Meeting </th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Service(s)</th>
+                      <th scope="col" colspan="3" >Action</th>
                       <th scope="col"></th>
 
                     </tr>
@@ -298,11 +274,11 @@ function UserHome() {
                           <tr className='text-center'>
                             {/* <td scope="row">{index+1}</td> */}
                             {/* <td>{lead.lead_Id}</td> */}
-                            <td className='align-middle'>{lead.date}</td>
-                            <td className='align-middle'>{lead.fullName}</td>
-                            <td className='align-middle'>{lead.mobileNo}</td>
-                            <td className='align-middle'>{lead.email}</td>
-                            <td className='align-middle '> <span className='btn ViewAddress' data-bs-toggle="modal" data-bs-target={`#ViewAddressModal${index}idx`} >View Address</span>
+                            <td>{lead.date}</td>
+                            <td>{lead.fullName}</td>
+                            <td>{lead.mobileNo}</td>
+                            <td>{lead.email}</td>
+                            <td> <span className='btn ' data-bs-toggle="modal" data-bs-target={`#ViewAddressModal${index}idx`} >View Address</span>
                               <div className='rounded-3 shadow-lg text-start'>
                                 <div className="modal fade rounded shadow-lg" id={`ViewAddressModal${index}idx`} tabindex="-1" aria-labelledby="ViewAddressModalLabel" aria-hidden="true">
                                   <div className="modal-dialog modal-dialog-centered">
@@ -313,7 +289,7 @@ function UserHome() {
                                       </div>
                                       <div className="modal-body m-1">
                                         <div className='Model_content d-flex flex-column  py-3 px-5' >
-                                          <div>
+                                          <div> 
                                             {lead.address}
                                           </div>
                                         </div>
@@ -324,12 +300,12 @@ function UserHome() {
                               </div>
                             </td>
                             {/* {lead.address} */}
-                            <td className='align-middle'>{lead.nextFollowDate}</td>
-                            <td className='align-middle'>{lead.status}</td>
-                            <td className='align-middle'>{lead.inquiryType}</td>
-                            <td className='align-middle'><span onClick={() => setLeadForm({ ...leadForm, lead_Id: lead.lead_Id })} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Update</span></td>
-                            <td className='align-middle'><span onClick={() => setLeadForm({ ...leadForm, lead_Id: lead.lead_Id })} className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Schedule Next Meeting </span></td>
-                            <td className='align-middle'><Link to={`/HomePage/FollowUpPage/${lead.lead_Id}`} className='btn btn-warning'>MOM</Link></td>
+                            <td>{lead.nextFollowDate}</td>
+                            <td className='bg-warning'>{lead.status}</td>
+                            <td>{lead.inquiryType}</td>
+                            <td><span onClick={() => setLeadForm({ ...leadForm, lead_Id: lead.lead_Id })} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Update</span></td>
+                            <td><span onClick={() => setLeadForm({ ...leadForm, lead_Id: lead.lead_Id })} className="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addFollowleModal" >Schedule Next Meeting </span></td>
+                            <td><Link to={`/HomePage/FollowUpPage/${lead.lead_Id}`} className='btn btn-warning'>MOM</Link></td>
 
 
 
@@ -343,50 +319,50 @@ function UserHome() {
                                   <div className="modal-content">
                                     <div className="modal-header">
                                       <h1 className="modal-title fs-5" id="exampleModalLabel">Update Leads Details</h1>
-                                      <button  type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      <button ref={pushRef} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div className="modal-body m-1">
                                       <div className='Model_content d-flex flex-column  py-3 px-5' >
                                         <div>
-                                          <form onSubmit={(e) => handleUpdateLead(e, lead)}>
-                                            {/* <div className="mb-3" >
+                                        <form onSubmit={(e) => handleUpdateLead(e, lead)}>
+                                    {/* <div className="mb-3" >
                                       <label for="exampleFormControlInput1" className="form-label">Update Client Id</label>
                                       <input required value={lead.lead_Id}  type="text" className="form-control" id="exampleFormControlInput1" placeholder="Update Client Client Name" />
                                     </div> */}
-                                            <div className="mb-3" >
-                                              <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
-                                              <input required type="text" value={lead.fullName} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Name" />
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
-                                              <input required type="number" name='Mobile' value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
-                                              {error && <p style={{ color: "red" }}>Please enter a valid 10 digit number.</p>}
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Email ID</label>
-                                              <input required type="Email" value={leadForm.email} onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
-                                            </div>
-                                            <div className="mb-3">
-                                              <label for="exampleFormControlInput1" className="form-label">Address</label>
-                                              <input required type="address" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
-                                            </div>
-                                            <div>
-                                              <label for="exampleDataList" className="form-label">Update Inquery type</label>
-                                              <select required value={leadForm.inquiryType} onChange={(e) => { handleLeadForm(e, 'inquiryType') }} className="form-select form-select-sm" aria-label=".form-select-sm example">
-                                                <option disabled value="">Open this select menu</option>
-                                                <option value="Web Development">Web Development</option>
-                                                <option value="Digital Marketing">Digital Marketing</option>
-                                                <option value="Digital Marketing">Whatsapp Marketing</option>
-                                                <option value="SMO">SMO</option>
-                                                <option value="SEO">SEO</option>
-                                                <option value="SMM">SMM</option>
-                                              </select>
-                                            </div>
-                                            <div className='btn btn-dark mt-3' >
-                                              <input type="submit" className='btn btn-dark' />
-                                            </div>
-                                            {/* <Link to='' className='btn btn-dark mt-3 '>Update</Link> */}
-                                          </form>
+                                    {/* <div className="mb-3" >
+                                      <label for="exampleFormControlInput1" className="form-label">Update Client Name</label>
+                                      <input required type="text" value={lead.fullName} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Name" />
+                                    </div> */}
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Update Mobile No.</label>
+                                      <input required type="number" name='Mobile' value={leadForm.mobileNo} onChange={(e) => handleLeadForm(e, 'mobileNo')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Number" />
+                                      {error && <p style={{color: "red"}}>Please enter a valid 10 digit number.</p>}
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Email ID</label>
+                                      <input required type="Email" value={leadForm.email}  onChange={(e) => handleLeadForm(e, 'email')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Email ID" />
+                                    </div>
+                                    <div className="mb-3">
+                                      <label for="exampleFormControlInput1" className="form-label">Address</label>
+                                      <input required type="address" value={leadForm.address} onChange={(e) => handleLeadForm(e, 'address')} className="form-control" id="exampleFormControlInput1" placeholder="Update Client Address" />
+                                    </div>
+                                    <div>
+                                      <label for="exampleDataList" className="form-label">Update Inquery type</label>
+                                      <select required value={leadForm.inquiryType} onChange={(e) => {handleLeadForm(e, 'inquiryType')}} className="form-select form-select-sm" aria-label=".form-select-sm example">
+                                      <option disabled value="">Open this select menu</option>
+                                      <option value="Web Development">Web Development</option>
+                                      <option value="Digital Marketing">Digital Marketing</option>
+                                      <option value="Digital Marketing">Whatsapp Marketing</option>
+                                      <option value="SMO">SMO</option>
+                                      <option value="SEO">SEO</option>
+                                      <option value="SMM">SMM</option>
+                                      </select>
+                                    </div>
+                                    <div className='btn btn-dark mt-3' >
+                                      <input type="submit" className='btn btn-dark' />
+                                    </div>
+                                    {/* <Link to='' className='btn btn-dark mt-3 '>Update</Link> */}
+                                    </form>
                                         </div>
                                       </div>
                                     </div>
@@ -407,7 +383,7 @@ function UserHome() {
                                   <div className="modal-content">
                                     <div className="modal-header">
                                       <h1 className="modal-title fs-5" id="exampleModalLabel">Add Upcoming Meeting Date</h1>
-                                      <button type="button" className="btn-close twch wala" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      <button ref={pushRef} type="button" className="btn-close twch wala" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div className="modal-body m-1">
                                       <div className='Model_content d-flex flex-column  py-3 px-5' >
@@ -453,8 +429,6 @@ function UserHome() {
                 </table>
               </div>
             </div>
-            {/* pagination add  */}
-
           </div>
 
         </div>
@@ -473,10 +447,7 @@ export default UserHome;
 
 //CSS Styled Section use only low css styled
 
-const Wrapper = styled.section`
-.ViewAddress:hover {
- color: #0008ff;
- border: 0.5px solid #0008ff;
-}
+const Wrapper = Styled.section`
+
 
 `

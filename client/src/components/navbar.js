@@ -7,19 +7,12 @@ import BLogoImg from '../assets/images/brand_logo.png'
 // import LogoutImg from '../assets/images/logout.png'
 import { GrLogin } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
-import { FaRegUserCircle } from "react-icons/fa";
-
 
 function Navbar({Logout}) {
   const [user,setUser] = useState(localStorage.getItem('user'));
-  const [userName, setUserName] = useState('defai;t nmame');
 
  useEffect(()=>{
   setUser(localStorage.getItem('user'))
-  let obj = localStorage.getItem('user');
-  obj = JSON.parse(obj);
-  console.log(obj);
-  setUserName(obj?.name || 'defualt name');
  },[localStorage.getItem('user')])
 
   return (
@@ -40,11 +33,9 @@ function Navbar({Logout}) {
                   }
 
                 </li>
-                
               </ul>
               {
-                localStorage.getItem('user') ? <> <span className='text-center '> < FaRegUserCircle className='mx-3'/> {userName}
-                </span> <button onClick={Logout} className="btn btn-outline-none text-danger logout my-2 px-3"><BiLogOut /> Logout</button> </> :
+                localStorage.getItem('user') ? <> <button onClick={Logout} className="btn btn-outline-none text-danger logout my-2 px-3"><BiLogOut /> Logout</button> </> :
                   <button  className="btn login my-2 px-3 " type="login" > Login <GrLogin /></button>
               }
 
